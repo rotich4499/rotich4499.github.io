@@ -23,6 +23,8 @@ Learned key AI concepts, data analysis, and the ethical use of AI in the modern 
 - 2D Magnetic Semiconductors
 - Spin-Orbit Coupling & Magnetic Anisotropy
 - DFT Simulations using Quantum ESPRESSO & SIESTA
+- Mechanical Properties 
+- Electronic Properties; Bandstructure
 - Integration of AI/ML in Materials Science
 
 🛠 **Workshops & Collaborations**
