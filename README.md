@@ -2,19 +2,19 @@
 
 This repository contains Charles Kipchumba Rotich’s academic website and SIESTA learning resources.
 
-The new static website is ready in **`docs/`**. It includes separate Home, About, Research, Projects, CV, Learn and Contact pages, eight SIESTA lessons, a downloadable CV and the silicon calculation files. The bachelor’s project is presented as a summary and workflow; its full report is excluded.
+The static website is published from the **repository root**, with a matching copy in **`docs/`**. It includes separate Home, About, Research, Projects, CV, Learn and Contact pages, eight SIESTA lessons, a downloadable CV and the silicon calculation files. The bachelor’s project is presented as a summary and workflow; its full report is excluded.
 
-## Enable GitHub Pages
+## GitHub Pages hosting
 
-In this repository, open **Settings → Pages** and select:
+The existing GitHub Pages configuration publishes from `main` and the repository root. If hosting needs to be configured again, open **Settings → Pages** and select:
 
 - **Source:** Deploy from a branch
 - **Branch:** `main`
-- **Folder:** `/docs`
+- **Folder:** `/(root)`
 
 Save the setting and wait for GitHub’s Pages deployment to finish. The site address is **https://rotich4499.github.io/**.
 
-The earlier Jekyll files remain in the repository root. Publishing from `/docs` selects the new website.
+The `.nojekyll` marker selects the prebuilt static website. Earlier Jekyll source files remain in the repository; the previous error page and README are also retained under `github-pages/legacy/`.
 
 ## Maintain the site
 
@@ -27,6 +27,6 @@ npm run build
 npm run check
 ```
 
-Commit the updated source and generated `docs/` files together. GitHub Pages serves the generated files directly; visitors do not need Node.js, Python or a server.
+Commit the updated source, generated root files and matching `docs/` files together. The build records the generated root files in `github-pages/published-files.json` so later builds can remove obsolete generated pages without deleting earlier source files. GitHub Pages serves the generated files directly; visitors do not need Node.js, Python or a server.
 
 The companion course repository is [computational-materials-learning](https://github.com/rotich4499/computational-materials-learning). Scientific provenance and the supplied calculation settings are documented in its [source audit](https://github.com/rotich4499/computational-materials-learning/blob/main/SOURCE_AUDIT.md).

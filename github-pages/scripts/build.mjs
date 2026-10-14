@@ -58,4 +58,33 @@ await fs.writeFile(path.join(output, ".nojekyll"), "");
 await fs.writeFile(path.join(output, "robots.txt"), "User-agent: *\nAllow: /\nSitemap: https://rotich4499.github.io/sitemap.xml\n");
 await fs.writeFile(path.join(output, "sitemap.xml"), '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + pages.map(page => "  <url><loc>https://rotich4499.github.io" + (page.route === "/" ? "/" : page.route + "/") + "</loc></url>").join("\n") + "\n</urlset>\n");
 await fs.writeFile(path.join(output, "build-manifest.json"), JSON.stringify({ origin: "https://rotich4499.github.io", routes: pages.map(({ route, title }) => ({ route, title })), assets }, null, 2) + "\n");
-console.log(JSON.stringify({ staticPages: pages.length, output: "docs/", serverRequired: false }));
+
+// GitHub Pages already publishes the repository root. Keep a docs/ mirror and
+// copy only the generated files to the root, preserving the earlier sources.
+const repository = path.resolve(root, "..");
+const ownershipFile = path.join(root, "published-files.json");
+async function listFiles(directory, prefix = "") {
+  const result = [];
+  for (const entry of await fs.readdir(directory, { withFileTypes: true })) {
+    const relative = prefix + entry.name;
+    if (entry.isDirectory()) result.push(...await listFiles(path.join(directory, entry.name), relative + "/"));
+    else result.push(relative);
+  }
+  return result.sort();
+}
+const publishedFiles = await listFiles(output);
+const safe = filename => !filename.startsWith("/") && !filename.split("/").includes("..") && !filename.startsWith("docs/") && !filename.startsWith("github-pages/");
+let previous = [];
+try { previous = JSON.parse(await fs.readFile(ownershipFile, "utf8")); } catch (error) { if (error.code !== "ENOENT") throw error; }
+for (const filename of previous) {
+  if (!safe(filename)) throw new Error("Unsafe generated path: " + filename);
+  if (!publishedFiles.includes(filename)) await fs.rm(path.join(repository, filename), { force: true });
+}
+for (const filename of publishedFiles) {
+  if (!safe(filename)) throw new Error("Unsafe generated path: " + filename);
+  const destination = path.join(repository, filename);
+  await fs.mkdir(path.dirname(destination), { recursive: true });
+  await fs.copyFile(path.join(output, filename), destination);
+}
+await fs.writeFile(ownershipFile, JSON.stringify(publishedFiles, null, 2) + "\n");
+console.log(JSON.stringify({ staticPages: pages.length, output: "repository root and docs/", serverRequired: false }));

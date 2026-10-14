@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Start here | Learn SIESTA · Charles Rotich</title><meta name="description" content="The workflow, files and scientific questions behind your first calculation."/><link rel="icon" href="/favicon.svg" type="image/svg+xml"/><link rel="canonical" href="https://rotich4499.github.io/learn/siesta/start-here/"/><link rel="stylesheet" href="/assets/site-9f49b6b69f0e.css"/></head><body><div class="learning-site"><a class="learning-skip" href="#lesson-main">Skip to learning content</a><header class="learning-header"><a class="brand" href="/"><span class="brand-mark">CR</span><span>Charles Rotich</span></a><nav aria-label="Website navigation"><a href="/">Profile</a><a href="/learn/siesta" aria-current="location">Learn SIESTA</a><a href="/learn/siesta/downloads">Downloads</a></nav><span class="learning-review">Phase 1 · Review edition</span></header><main class="course-shell"><aside class="course-sidebar"><p class="course-small-label">In this course</p><nav aria-label="SIESTA course lessons"><a href="/learn/siesta/start-here" class="course-nav-link current" aria-current="page"><span>01</span><strong>Start here</strong></a><a href="/learn/siesta/installation" class="course-nav-link"><span>02</span><strong>Install SIESTA</strong></a><a href="/learn/siesta/silicon-input" class="course-nav-link"><span>03</span><strong>Understand the silicon input</strong></a><a href="/learn/siesta/first-scf" class="course-nav-link"><span>04</span><strong>Run your first SCF calculation</strong></a><a href="/learn/siesta/convergence" class="course-nav-link"><span>05</span><strong>Test numerical convergence</strong></a><a href="/learn/siesta/relaxation" class="course-nav-link"><span>06</span><strong>Relax the silicon structure</strong></a><a href="/learn/siesta/troubleshooting" class="course-nav-link"><span>07</span><strong>Troubleshoot and reproduce</strong></a><a href="/learn/siesta/doxygen" class="course-nav-link"><span>08</span><strong>Document the scripts with Doxygen</strong></a><a class="course-nav-link" href="/learn/siesta/downloads"><span>↓</span><strong>Files &amp; downloads</strong></a><a class="course-nav-link" href="https://github.com/rotich4499/computational-materials-learning" target="_blank" rel="noreferrer"><span>↗</span><strong>Course on GitHub</strong></a></nav><p class="course-sidebar-note">One material. Complete inputs. Results you can inspect.</p></aside><details class="course-mobile-nav"><summary>Browse course lessons</summary><nav aria-label="SIESTA course lessons"><a href="/learn/siesta/start-here" class="course-nav-link current" aria-current="page"><span>01</span><strong>Start here</strong></a><a href="/learn/siesta/installation" class="course-nav-link"><span>02</span><strong>Install SIESTA</strong></a><a href="/learn/siesta/silicon-input" class="course-nav-link"><span>03</span><strong>Understand the silicon input</strong></a><a href="/learn/siesta/first-scf" class="course-nav-link"><span>04</span><strong>Run your first SCF calculation</strong></a><a href="/learn/siesta/convergence" class="course-nav-link"><span>05</span><strong>Test numerical convergence</strong></a><a href="/learn/siesta/relaxation" class="course-nav-link"><span>06</span><strong>Relax the silicon structure</strong></a><a href="/learn/siesta/troubleshooting" class="course-nav-link"><span>07</span><strong>Troubleshoot and reproduce</strong></a><a href="/learn/siesta/doxygen" class="course-nav-link"><span>08</span><strong>Document the scripts with Doxygen</strong></a><a class="course-nav-link" href="/learn/siesta/downloads"><span>↓</span><strong>Files &amp; downloads</strong></a><a class="course-nav-link" href="https://github.com/rotich4499/computational-materials-learning" target="_blank" rel="noreferrer"><span>↗</span><strong>Course on GitHub</strong></a></nav></details><article id="lesson-main" class="lesson-article"><div class="course-breadcrumb"><a href="/learn/siesta">Learn SIESTA</a><span>/</span><span>Lesson 1 of 8</span></div><header class="lesson-header"><p class="course-small-label">Orientation · 4 min read</p><h1>Start here</h1><p>The workflow, files and scientific questions behind your first calculation.</p><a href="/learning/downloads/files/docs/start-here.md" download="">Download this lesson as Markdown</a></header><div class="lesson-content"><div><p>Learn to build SIESTA, run a two-atom silicon calculation, choose numerical settings, and check a relaxed structure. These lessons follow Charles Rotich's supplied files and results, with complete downloads so you can inspect every input.</p>
+<h2 id="choose-your-starting-point">Choose your starting point</h2>
+<p>If you are new to scientific computing, follow the lessons in order. If SIESTA already works on your machine, start with the silicon input and first SCF lesson. Experienced readers can open the convergence tables and reference outputs directly.</p>
+<table>
+<thead>
+<tr>
+<th>Lesson</th>
+<th>You will be able to</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Installation</td>
+<td>Build an MPI-enabled executable with Ubuntu system libraries</td>
+</tr>
+<tr>
+<td>Silicon input</td>
+<td>Explain the cell, basis, functional and numerical controls</td>
+</tr>
+<tr>
+<td>First SCF</td>
+<td>Run a calculation and confirm electronic convergence</td>
+</tr>
+<tr>
+<td>Convergence</td>
+<td>Compare mesh, k-point and lattice scans quantitatively</td>
+</tr>
+<tr>
+<td>Relaxation</td>
+<td>Interpret force, stress and final-geometry checks</td>
+</tr>
+<tr>
+<td>Troubleshooting</td>
+<td>Diagnose failures without confusing completion with convergence</td>
+</tr>
+<tr>
+<td>Doxygen</td>
+<td>Document the teaching Python scripts and shell launcher</td>
+</tr>
+</tbody>
+</table>
+<h2 id="what-you-need">What you need</h2>
+<ul>
+<li>A Linux workstation or an allocated HPC compute node.</li>
+<li>Bash and basic terminal navigation.</li>
+<li>An MPI-enabled SIESTA build; the installation lesson targets Ubuntu 26.04.</li>
+<li>Python 3 for the standard-library teaching scripts.</li>
+<li>NumPy and Matplotlib only if you want to regenerate the original plots.</li>
+</ul>
+<p>The installation lesson needs administrator access for Ubuntu packages. On a managed cluster, use the compiler/MPI modules approved by your administrators rather than installing workstation packages.</p>
+<h2 id="download-and-inspect-the-course">Download and inspect the course</h2>
+<p>Download the complete course ZIP from the Downloads page, extract it with your file manager, and open a terminal in the extracted <code>computational-materials-learning</code> folder.</p>
+</div><div class="lesson-code"><div class="lesson-code-bar"><span>Terminal · Bash</span><button data-slot="button" data-variant="ghost" data-size="sm" class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&amp;_svg]:pointer-events-none [&amp;_svg]:shrink-0 [&amp;_svg:not([class*=&#x27;size-&#x27;])]:size-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-8 gap-1.5 rounded-md px-3 has-[&gt;svg]:px-2.5 code-copy" aria-label="Copy this code block">Copy</button></div><pre tabindex="0"><code>pwd
+ls
+ls examples/silicon-diamond</code></pre><span class="sr-only" aria-live="polite"></span></div><div><p>You should see <code>docs</code>, <code>examples</code>, <code>reference</code>, <code>scripts</code> and <code>doxygen</code>. Run the lesson commands one block at a time; do not execute the Markdown file as a shell script.</p>
+<h2 id="the-calculation-workflow">The calculation workflow</h2>
+<ol>
+<li>Define the material and physical model: silicon, PBEsol, a DZP basis, and a norm-conserving pseudopotential.</li>
+<li>Solve the electronic problem at fixed geometry: SCF.</li>
+<li>Check numerical accuracy by changing one setting at a time.</li>
+<li>Relax geometry using converged electronic calculations at each step.</li>
+<li>Inspect final forces, stress and structure; archive the inputs and output together.</li>
+</ol>
+<p>SCF is the repeated solution of the electronic density and Hamiltonian until they agree within tolerance. Relaxation moves atoms or changes the cell using calculated forces and stress. A converged SCF cycle is necessary at each geometry, but does not by itself establish a converged geometry.</p>
+<h2 id="where-the-evidence-comes-from">Where the evidence comes from</h2>
+<p>The course includes the author's completed runs and scan tables. The reference SCF reports <code>-230.042602 eV</code> for the two-atom primitive cell. The installation guide targets SIESTA 5.4.2, while the executable banner in both outputs reads <code>unreleased e486d1206 (2025-12-16)</code>. Record that distinction when reproducing the work.</p>
+<p>The reference files have been inspected. The SIESTA build and numerical calculations have not been repeated in the website-building environment. See <a href="/learning/downloads/files/SOURCE_AUDIT.md">the source audit</a> for the exact provenance and limitations.</p>
+<h2 id="a-small-first-exercise">A small first exercise</h2>
+<p>Before running anything, answer: how many atoms are in the silicon input, and how many valence electrons should that pseudopotential provide? The input has two Si atoms; the PSML file specifies four valence electrons per Si, so the neutral cell contains eight.</p>
+<p>Continue with <a href="/learn/siesta/installation">installing SIESTA</a>, or <a href="/learn/siesta/silicon-input">understanding the silicon input</a> if your executable is already ready.</p>
+</div></div><nav class="lesson-pager" aria-label="Adjacent lessons"><a href="/learn/siesta"><span>Course overview</span><strong>Return to the learning path</strong></a><a href="/learn/siesta/installation"><span>Next lesson</span><strong>Install SIESTA</strong></a></nav></article><aside class="lesson-toc"><p class="course-small-label">On this page</p><nav aria-label="Sections in this lesson"><a href="#choose-your-starting-point">Choose your starting point</a><a href="#what-you-need">What you need</a><a href="#download-and-inspect-the-course">Download and inspect the course</a><a href="#the-calculation-workflow">The calculation workflow</a><a href="#where-the-evidence-comes-from">Where the evidence comes from</a><a href="#a-small-first-exercise">A small first exercise</a></nav></aside></main><footer class="learning-footer"><a href="/">Charles Kipchumba Rotich</a><p>Computational materials science · Learning through reproducible examples</p><a href="mailto:rotich4499@gmail.com">Contact</a></footer></div><script src="/assets/site-ef09a5b8ba35.js" defer=""></script></body></html>

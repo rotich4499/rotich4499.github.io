@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Understand the silicon input | Learn SIESTA · Charles Rotich</title><meta name="description" content="Explain the primitive cell, pseudopotential, basis and every important control."/><link rel="icon" href="/favicon.svg" type="image/svg+xml"/><link rel="canonical" href="https://rotich4499.github.io/learn/siesta/silicon-input/"/><link rel="stylesheet" href="/assets/site-9f49b6b69f0e.css"/></head><body><div class="learning-site"><a class="learning-skip" href="#lesson-main">Skip to learning content</a><header class="learning-header"><a class="brand" href="/"><span class="brand-mark">CR</span><span>Charles Rotich</span></a><nav aria-label="Website navigation"><a href="/">Profile</a><a href="/learn/siesta" aria-current="location">Learn SIESTA</a><a href="/learn/siesta/downloads">Downloads</a></nav><span class="learning-review">Phase 1 · Review edition</span></header><main class="course-shell"><aside class="course-sidebar"><p class="course-small-label">In this course</p><nav aria-label="SIESTA course lessons"><a href="/learn/siesta/start-here" class="course-nav-link"><span>01</span><strong>Start here</strong></a><a href="/learn/siesta/installation" class="course-nav-link"><span>02</span><strong>Install SIESTA</strong></a><a href="/learn/siesta/silicon-input" class="course-nav-link current" aria-current="page"><span>03</span><strong>Understand the silicon input</strong></a><a href="/learn/siesta/first-scf" class="course-nav-link"><span>04</span><strong>Run your first SCF calculation</strong></a><a href="/learn/siesta/convergence" class="course-nav-link"><span>05</span><strong>Test numerical convergence</strong></a><a href="/learn/siesta/relaxation" class="course-nav-link"><span>06</span><strong>Relax the silicon structure</strong></a><a href="/learn/siesta/troubleshooting" class="course-nav-link"><span>07</span><strong>Troubleshoot and reproduce</strong></a><a href="/learn/siesta/doxygen" class="course-nav-link"><span>08</span><strong>Document the scripts with Doxygen</strong></a><a class="course-nav-link" href="/learn/siesta/downloads"><span>↓</span><strong>Files &amp; downloads</strong></a><a class="course-nav-link" href="https://github.com/rotich4499/computational-materials-learning" target="_blank" rel="noreferrer"><span>↗</span><strong>Course on GitHub</strong></a></nav><p class="course-sidebar-note">One material. Complete inputs. Results you can inspect.</p></aside><details class="course-mobile-nav"><summary>Browse course lessons</summary><nav aria-label="SIESTA course lessons"><a href="/learn/siesta/start-here" class="course-nav-link"><span>01</span><strong>Start here</strong></a><a href="/learn/siesta/installation" class="course-nav-link"><span>02</span><strong>Install SIESTA</strong></a><a href="/learn/siesta/silicon-input" class="course-nav-link current" aria-current="page"><span>03</span><strong>Understand the silicon input</strong></a><a href="/learn/siesta/first-scf" class="course-nav-link"><span>04</span><strong>Run your first SCF calculation</strong></a><a href="/learn/siesta/convergence" class="course-nav-link"><span>05</span><strong>Test numerical convergence</strong></a><a href="/learn/siesta/relaxation" class="course-nav-link"><span>06</span><strong>Relax the silicon structure</strong></a><a href="/learn/siesta/troubleshooting" class="course-nav-link"><span>07</span><strong>Troubleshoot and reproduce</strong></a><a href="/learn/siesta/doxygen" class="course-nav-link"><span>08</span><strong>Document the scripts with Doxygen</strong></a><a class="course-nav-link" href="/learn/siesta/downloads"><span>↓</span><strong>Files &amp; downloads</strong></a><a class="course-nav-link" href="https://github.com/rotich4499/computational-materials-learning" target="_blank" rel="noreferrer"><span>↗</span><strong>Course on GitHub</strong></a></nav></details><article id="lesson-main" class="lesson-article"><div class="course-breadcrumb"><a href="/learn/siesta">Learn SIESTA</a><span>/</span><span>Lesson 3 of 8</span></div><header class="lesson-header"><p class="course-small-label">Foundations · 4 min read</p><h1>Understand the silicon input</h1><p>Explain the primitive cell, pseudopotential, basis and every important control.</p><a href="/learning/downloads/files/docs/silicon-input.md" download="">Download this lesson as Markdown</a></header><div class="lesson-content"><div><p>This example is elemental silicon in the diamond structure. It uses a two-atom primitive cell. Carbon diamond and silicon carbide are different systems; neither is represented by this input.</p>
+<h2 id="the-physical-model">The physical model</h2>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Supplied value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Atoms / species</td>
+<td>2 Si atoms / 1 species</td>
+</tr>
+<tr>
+<td>Functional</td>
+<td>GGA PBEsol</td>
+</tr>
+<tr>
+<td>Basis</td>
+<td>Split, double-zeta plus polarisation (DZP)</td>
+</tr>
+<tr>
+<td>Pseudopotential</td>
+<td>Si PSML, norm-conserving, scalar relativistic</td>
+</tr>
+<tr>
+<td>Valence electrons</td>
+<td>4 per Si; 8 in the neutral cell</td>
+</tr>
+<tr>
+<td>Real-space grid</td>
+<td>MeshCutoff 200 Ry</td>
+</tr>
+<tr>
+<td>k-point mesh</td>
+<td>10×10×10, no shift</td>
+</tr>
+<tr>
+<td>Final DM tolerance</td>
+<td>1.0d-7</td>
+</tr>
+<tr>
+<td>Charge</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Spin</td>
+<td>Non-polarised in the supplied output</td>
+</tr>
+</tbody>
+</table>
+<p>The final inputs do not specify every basis-confinement setting, electronic temperature or solver default. For exact reproduction, retain the echoed input and reported settings from the output alongside the executable version.</p>
+<h2 id="why-the-lattice-constant-is-half-the-cubic-parameter">Why the lattice constant is half the cubic parameter</h2>
+<p>The dimensionless primitive vectors are <code>(0,1,1)</code>, <code>(1,0,1)</code> and <code>(1,1,0)</code>. SIESTA multiplies them by <code>LatticeConstant</code>. For this representation, the conventional cubic parameter is <code>a = 2 × LatticeConstant</code>.</p>
+</div><div class="lesson-code"><div class="lesson-code-bar"><span>Input / output</span><button data-slot="button" data-variant="ghost" data-size="sm" class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&amp;_svg]:pointer-events-none [&amp;_svg]:shrink-0 [&amp;_svg:not([class*=&#x27;size-&#x27;])]:size-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-8 gap-1.5 rounded-md px-3 has-[&gt;svg]:px-2.5 code-copy" aria-label="Copy this code block">Copy</button></div><pre tabindex="0"><code>LatticeConstant     2.72105 Ang
+
+%block LatticeVectors
+   0.0   1.0   1.0
+   1.0   0.0   1.0
+   1.0   1.0   0.0
+%endblock LatticeVectors</code></pre><span class="sr-only" aria-live="polite"></span></div><div><p>Thus <code>a = 5.44210 Å</code>; each primitive-vector length is about 3.848146 Å, and the primitive volume is about 40.293924 Å³. The two basis atoms sit at fractional coordinates <code>(0,0,0)</code> and <code>(¼,¼,¼)</code> relative to the primitive vectors. Do not interpret those coordinates as fractions of a conventional cubic cell.</p>
+<h2 id="complete-scf-input">Complete SCF input</h2>
+<p>Download <a href="/learning/downloads/files/examples/silicon-diamond/scf/si_scf.fdf">si_scf.fdf</a>. The supplied input is:</p>
+</div><div class="lesson-code"><div class="lesson-code-bar"><span>Input / output</span><button data-slot="button" data-variant="ghost" data-size="sm" class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&amp;_svg]:pointer-events-none [&amp;_svg]:shrink-0 [&amp;_svg:not([class*=&#x27;size-&#x27;])]:size-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-8 gap-1.5 rounded-md px-3 has-[&gt;svg]:px-2.5 code-copy" aria-label="Copy this code block">Copy</button></div><pre tabindex="0"><code>SystemName          Si_PBEsol_LatticeScan
+SystemLabel         Si
+NumberOfAtoms       2
+NumberOfSpecies     1
+
+%block ChemicalSpeciesLabel
+   1   14   Si
+%endblock ChemicalSpeciesLabel
+
+PAO.BasisType       split
+PAO.BasisSize       DZP
+XC.functional       GGA
+XC.authors          PBEsol
+
+LatticeConstant     2.72105 Ang
+%block LatticeVectors
+   0.0   1.0   1.0
+   1.0   0.0   1.0
+   1.0   1.0   0.0
+%endblock LatticeVectors
+
+AtomicCoordinatesFormat Fractional
+%block AtomicCoordinatesAndAtomicSpecies
+   0.000000   0.000000   0.000000   1
+   0.250000   0.250000   0.250000   1
+%endblock AtomicCoordinatesAndAtomicSpecies
+
+MeshCutoff          200 Ry
+%block kgrid.MonkhorstPack
+   10   0    0    0.0
+    0  10    0    0.0
+    0   0   10    0.0
+%endblock kgrid.MonkhorstPack
+
+MaxSCFIterations    150
+DM.Tolerance        1.0d-7
+DM.MixingWeight     0.10
+SolutionMethod      diagon
+NetCharge           0.0</code></pre><span class="sr-only" aria-live="polite"></span></div><div><p>The historical <code>SystemName</code> contains &quot;LatticeScan&quot; even though this file runs one SCF calculation. The run type is determined by the input options, not by this descriptive name.</p>
+<h2 id="read-the-important-controls">Read the important controls</h2>
+<table>
+<thead>
+<tr>
+<th>Entry</th>
+<th>Meaning</th>
+<th>What changes if you edit it?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SystemLabel</td>
+<td>Prefix for SIESTA-generated files</td>
+<td>Output names and restart-file names</td>
+</tr>
+<tr>
+<td>ChemicalSpeciesLabel</td>
+<td>Species index, atomic number and symbol</td>
+<td>Species-to-pseudopotential mapping</td>
+</tr>
+<tr>
+<td>PAO.BasisSize</td>
+<td>Local orbital basis size</td>
+<td>Variational flexibility, cost and basis error</td>
+</tr>
+<tr>
+<td>XC.authors</td>
+<td>Exchange-correlation choice</td>
+<td>Physical approximation; match the pseudopotential</td>
+</tr>
+<tr>
+<td>MeshCutoff</td>
+<td>Real-space integration-grid fineness</td>
+<td>Grid accuracy and cost; not a plane-wave basis cutoff</td>
+</tr>
+<tr>
+<td>kgrid.MonkhorstPack</td>
+<td>Reciprocal-space sampling</td>
+<td>Brillouin-zone integration accuracy</td>
+</tr>
+<tr>
+<td>DM.Tolerance</td>
+<td>Density-matrix convergence threshold</td>
+<td>Electronic stopping accuracy</td>
+</tr>
+<tr>
+<td>DM.MixingWeight</td>
+<td>Mixing weight used during SCF</td>
+<td>Convergence behaviour; not an accuracy guarantee</td>
+</tr>
+<tr>
+<td>MaxSCFIterations</td>
+<td>Upper limit on SCF cycles</td>
+<td>Allows more attempts; does not guarantee convergence</td>
+</tr>
+<tr>
+<td>SolutionMethod</td>
+<td>Electronic solver</td>
+<td><code>diagon</code> uses diagonalisation</td>
+</tr>
+<tr>
+<td>NetCharge</td>
+<td>Cell charge relative to neutrality</td>
+<td>Electron count and charged-system treatment</td>
+</tr>
+</tbody>
+</table>
+<p>SIESTA 5.4 normally mixes the Hamiltonian; a <code>DM.*</code> option name alone does not establish that density-matrix mixing was selected. The reference output explicitly reports Hamiltonian mixing and a DM+H convergence criterion.</p>
+<h2 id="check-the-pseudopotential">Check the pseudopotential</h2>
+<p>Use the supplied <a href="/learning/downloads/files/examples/silicon-diamond/pseudopotentials/Si.psml">Si.psml</a> rather than substituting a similarly named file. The author attributes it to <a href="https://www.pseudo-dojo.org/">PseudoDojo</a>, PBEsol, scalar-relativistic NC, stringent, PSML.</p>
+</div><div class="lesson-code"><div class="lesson-code-bar"><span>Terminal · Bash</span><button data-slot="button" data-variant="ghost" data-size="sm" class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&amp;_svg]:pointer-events-none [&amp;_svg]:shrink-0 [&amp;_svg:not([class*=&#x27;size-&#x27;])]:size-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-8 gap-1.5 rounded-md px-3 has-[&gt;svg]:px-2.5 code-copy" aria-label="Copy this code block">Copy</button></div><pre tabindex="0"><code>sha256sum examples/silicon-diamond/pseudopotentials/Si.psml</code></pre><span class="sr-only" aria-live="polite"></span></div><div><p>Expected SHA-256:</p>
+</div><div class="lesson-code"><div class="lesson-code-bar"><span>Input / output</span><button data-slot="button" data-variant="ghost" data-size="sm" class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&amp;_svg]:pointer-events-none [&amp;_svg]:shrink-0 [&amp;_svg:not([class*=&#x27;size-&#x27;])]:size-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-8 gap-1.5 rounded-md px-3 has-[&gt;svg]:px-2.5 code-copy" aria-label="Copy this code block">Copy</button></div><pre tabindex="0"><code>fa0e9fa6ca7a97ab07879cd1bc8d858ebb32a90f262535b578d14d4d515bdc95</code></pre><span class="sr-only" aria-live="polite"></span></div><div><p>Its embedded provenance identifies ONCVPSP 3.3.0, PSML 1.1, LibXC PBEsol IDs 116 and 133, and four valence electrons. The author's collection label v0.4.1 is preserved separately in the source audit.</p>
+<p>Exercise: if <code>LatticeConstant</code> were changed to <code>5.44210 Ang</code> while keeping these dimensionless vectors, the intended cubic parameter would double. This is why cell conventions must be stated explicitly.</p>
+<p>Continue to <a href="/learn/siesta/first-scf">your first SCF run</a>. Parameter reference: <a href="https://docs.siesta-project.org/projects/siesta/en/5.4/reference/siesta.html">SIESTA 5.4 manual</a>.</p>
+</div></div><nav class="lesson-pager" aria-label="Adjacent lessons"><a href="/learn/siesta/installation"><span>Previous lesson</span><strong>Install SIESTA</strong></a><a href="/learn/siesta/first-scf"><span>Next lesson</span><strong>Run your first SCF calculation</strong></a></nav></article><aside class="lesson-toc"><p class="course-small-label">On this page</p><nav aria-label="Sections in this lesson"><a href="#the-physical-model">The physical model</a><a href="#why-the-lattice-constant-is-half-the-cubic-parameter">Why the lattice constant is half the cubic parameter</a><a href="#complete-scf-input">Complete SCF input</a><a href="#read-the-important-controls">Read the important controls</a><a href="#check-the-pseudopotential">Check the pseudopotential</a></nav></aside></main><footer class="learning-footer"><a href="/">Charles Kipchumba Rotich</a><p>Computational materials science · Learning through reproducible examples</p><a href="mailto:rotich4499@gmail.com">Contact</a></footer></div><script src="/assets/site-ef09a5b8ba35.js" defer=""></script></body></html>

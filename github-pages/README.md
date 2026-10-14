@@ -1,6 +1,6 @@
 # Building the GitHub Pages website
 
-This project generates static HTML, CSS and JavaScript for the academic website. The output folder is `../docs/`, which GitHub Pages can publish directly.
+This project generates static HTML, CSS and JavaScript for the academic website. It writes `../docs/` and mirrors those generated files to the repository root, which is the existing GitHub Pages publishing source.
 
 ## Requirements
 
@@ -28,4 +28,4 @@ npm run check
 
 The canonical learning repository is [computational-materials-learning](https://github.com/rotich4499/computational-materials-learning). Keep this project’s `learning-source/` copy aligned with it when lessons or scientific files change. Generated lesson JSON and download folders are rebuilt from that source.
 
-Build and check after editing, then commit the source and `../docs/` output together. Keep the bachelor’s report excluded from both source assets and published files.
+Build and check after editing, then commit the source, generated root files and `../docs/` output together. `published-files.json` records which root files belong to the generated site; existing source files are preserved. Keep the bachelor’s report excluded from both source assets and published files.

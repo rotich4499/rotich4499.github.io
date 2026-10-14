@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Relax the silicon structure | Learn SIESTA · Charles Rotich</title><meta name="description" content="Understand atomic and cell relaxation, force tolerances and stress checks."/><link rel="icon" href="/favicon.svg" type="image/svg+xml"/><link rel="canonical" href="https://rotich4499.github.io/learn/siesta/relaxation/"/><link rel="stylesheet" href="/assets/site-9f49b6b69f0e.css"/></head><body><div class="learning-site"><a class="learning-skip" href="#lesson-main">Skip to learning content</a><header class="learning-header"><a class="brand" href="/"><span class="brand-mark">CR</span><span>Charles Rotich</span></a><nav aria-label="Website navigation"><a href="/">Profile</a><a href="/learn/siesta" aria-current="location">Learn SIESTA</a><a href="/learn/siesta/downloads">Downloads</a></nav><span class="learning-review">Phase 1 · Review edition</span></header><main class="course-shell"><aside class="course-sidebar"><p class="course-small-label">In this course</p><nav aria-label="SIESTA course lessons"><a href="/learn/siesta/start-here" class="course-nav-link"><span>01</span><strong>Start here</strong></a><a href="/learn/siesta/installation" class="course-nav-link"><span>02</span><strong>Install SIESTA</strong></a><a href="/learn/siesta/silicon-input" class="course-nav-link"><span>03</span><strong>Understand the silicon input</strong></a><a href="/learn/siesta/first-scf" class="course-nav-link"><span>04</span><strong>Run your first SCF calculation</strong></a><a href="/learn/siesta/convergence" class="course-nav-link"><span>05</span><strong>Test numerical convergence</strong></a><a href="/learn/siesta/relaxation" class="course-nav-link current" aria-current="page"><span>06</span><strong>Relax the silicon structure</strong></a><a href="/learn/siesta/troubleshooting" class="course-nav-link"><span>07</span><strong>Troubleshoot and reproduce</strong></a><a href="/learn/siesta/doxygen" class="course-nav-link"><span>08</span><strong>Document the scripts with Doxygen</strong></a><a class="course-nav-link" href="/learn/siesta/downloads"><span>↓</span><strong>Files &amp; downloads</strong></a><a class="course-nav-link" href="https://github.com/rotich4499/computational-materials-learning" target="_blank" rel="noreferrer"><span>↗</span><strong>Course on GitHub</strong></a></nav><p class="course-sidebar-note">One material. Complete inputs. Results you can inspect.</p></aside><details class="course-mobile-nav"><summary>Browse course lessons</summary><nav aria-label="SIESTA course lessons"><a href="/learn/siesta/start-here" class="course-nav-link"><span>01</span><strong>Start here</strong></a><a href="/learn/siesta/installation" class="course-nav-link"><span>02</span><strong>Install SIESTA</strong></a><a href="/learn/siesta/silicon-input" class="course-nav-link"><span>03</span><strong>Understand the silicon input</strong></a><a href="/learn/siesta/first-scf" class="course-nav-link"><span>04</span><strong>Run your first SCF calculation</strong></a><a href="/learn/siesta/convergence" class="course-nav-link"><span>05</span><strong>Test numerical convergence</strong></a><a href="/learn/siesta/relaxation" class="course-nav-link current" aria-current="page"><span>06</span><strong>Relax the silicon structure</strong></a><a href="/learn/siesta/troubleshooting" class="course-nav-link"><span>07</span><strong>Troubleshoot and reproduce</strong></a><a href="/learn/siesta/doxygen" class="course-nav-link"><span>08</span><strong>Document the scripts with Doxygen</strong></a><a class="course-nav-link" href="/learn/siesta/downloads"><span>↓</span><strong>Files &amp; downloads</strong></a><a class="course-nav-link" href="https://github.com/rotich4499/computational-materials-learning" target="_blank" rel="noreferrer"><span>↗</span><strong>Course on GitHub</strong></a></nav></details><article id="lesson-main" class="lesson-article"><div class="course-breadcrumb"><a href="/learn/siesta">Learn SIESTA</a><span>/</span><span>Lesson 6 of 8</span></div><header class="lesson-header"><p class="course-small-label">Calculate · 4 min read</p><h1>Relax the silicon structure</h1><p>Understand atomic and cell relaxation, force tolerances and stress checks.</p><a href="/learning/downloads/files/docs/relaxation.md" download="">Download this lesson as Markdown</a></header><div class="lesson-content"><div><p>Use converged electronic calculations to compute forces and stress, then allow the optimisation algorithm to change atomic positions and the cell. The supplied example uses conjugate gradients (CG) with variable-cell relaxation.</p>
+<h2 id="1-add-the-relaxation-controls">1. Add the relaxation controls</h2>
+<p>The complete <a href="/learning/downloads/files/examples/silicon-diamond/relaxation/si_relax.fdf">si_relax.fdf</a> contains the SCF model from the earlier lesson plus these controls:</p>
+</div><div class="lesson-code"><div class="lesson-code-bar"><span>Input / output</span><button data-slot="button" data-variant="ghost" data-size="sm" class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&amp;_svg]:pointer-events-none [&amp;_svg]:shrink-0 [&amp;_svg:not([class*=&#x27;size-&#x27;])]:size-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-8 gap-1.5 rounded-md px-3 has-[&gt;svg]:px-2.5 code-copy" aria-label="Copy this code block">Copy</button></div><pre tabindex="0"><code>MD.TypeOfRun        CG
+MD.Steps            200
+MD.VariableCell     .true.
+MD.MaxForceTol      0.01 eV/Ang
+MD.MaxStressTol     0.1 GPa
+MD.TargetPressure   0.0 GPa</code></pre><span class="sr-only" aria-live="polite"></span></div><div><table>
+<thead>
+<tr>
+<th>Entry</th>
+<th>What it controls</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MD.TypeOfRun CG</td>
+<td>Conjugate-gradient geometry minimisation</td>
+</tr>
+<tr>
+<td>MD.Steps 200</td>
+<td>Maximum optimisation steps, not a requirement to take 200 steps</td>
+</tr>
+<tr>
+<td>MD.VariableCell true</td>
+<td>Optimise cell vectors as well as atomic positions</td>
+</tr>
+<tr>
+<td>MD.MaxForceTol</td>
+<td>Required force threshold for the geometry</td>
+</tr>
+<tr>
+<td>MD.MaxStressTol</td>
+<td>Required stress tolerance relative to the target</td>
+</tr>
+<tr>
+<td>MD.TargetPressure</td>
+<td>Desired hydrostatic pressure</td>
+</tr>
+</tbody>
+</table>
+<p><code>MD.Steps</code> is the documented SIESTA 5.4 option; <code>MD.NumCGsteps</code> remains as a legacy option. For a fixed-cell atomic relaxation, set <code>MD.VariableCell .false.</code> in a separate input. Perfect bulk silicon has symmetry-constrained zero or near-zero forces, so fixed-cell relaxation alone cannot determine its equilibrium lattice parameter.</p>
+<h2 id="2-launch-in-a-new-folder">2. Launch in a new folder</h2>
+<p>From the course root:</p>
+</div><div class="lesson-code"><div class="lesson-code-bar"><span>Terminal · Bash</span><button data-slot="button" data-variant="ghost" data-size="sm" class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&amp;_svg]:pointer-events-none [&amp;_svg]:shrink-0 [&amp;_svg:not([class*=&#x27;size-&#x27;])]:size-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-8 gap-1.5 rounded-md px-3 has-[&gt;svg]:px-2.5 code-copy" aria-label="Copy this code block">Copy</button></div><pre tabindex="0"><code>bash scripts/run_calculation.sh relaxation 4</code></pre><span class="sr-only" aria-live="polite"></span></div><div><p>The helper copies the input and matching pseudopotential into a fresh <code>runs/relaxation-...</code> directory. Its SCF-checking summary is useful, but it does not replace the geometry checks below.</p>
+<p>The reference relaxation uses the same 200 Ry grid, 10×10×10 k-mesh and <code>DM.Tolerance 1.0d-7</code> as the final SCF. It reports two electronic iterations. That shorter cycle can depend on the starting electronic state; it is not evidence that every fresh relaxation will converge in two iterations.</p>
+<h2 id="3-inspect-forces-stress-and-final-structure">3. Inspect forces, stress and final structure</h2>
+<p>In your run directory:</p>
+</div><div class="lesson-code"><div class="lesson-code-bar"><span>Terminal · Bash</span><button data-slot="button" data-variant="ghost" data-size="sm" class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&amp;_svg]:pointer-events-none [&amp;_svg]:shrink-0 [&amp;_svg:not([class*=&#x27;size-&#x27;])]:size-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-8 gap-1.5 rounded-md px-3 has-[&gt;svg]:px-2.5 code-copy" aria-label="Copy this code block">Copy</button></div><pre tabindex="0"><code>grep -E &#x27;SCF cycle converged|cgvc:|Job completed&#x27; si.out
+grep -A 10 &#x27;Atomic forces&#x27; si.out | tail -12
+grep &#x27;Stress tensor Voigt&#x27; si.out | tail -1
+grep -A 3 &#x27;Relaxed atomic coordinates&#x27; si.out | tail -4
+grep -A 4 &#x27;outcell: Unit cell vectors&#x27; si.out | tail -5</code></pre><span class="sr-only" aria-live="polite"></span></div><div><p>The full <a href="/learning/downloads/files/reference/silicon-diamond/relax_si/si_relax.out">reference relaxation output</a> reports:</p>
+<table>
+<thead>
+<tr>
+<th>Quantity</th>
+<th>Reference</th>
+<th>Check</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Maximum force</td>
+<td>0.000011 eV/Å</td>
+<td>Below 0.01 eV/Å</td>
+</tr>
+<tr>
+<td>Pressure</td>
+<td>-0.26020609 kbar</td>
+<td>Magnitude about 0.0260 GPa</td>
+</tr>
+<tr>
+<td>Diagonal stress components</td>
+<td>About 0.26 kbar</td>
+<td>About 0.026 GPa, below the 0.1 GPa target tolerance</td>
+</tr>
+<tr>
+<td>Final energy</td>
+<td>-230.042602 eV/cell</td>
+<td>Same printed value as the supplied SCF</td>
+</tr>
+<tr>
+<td>Final volume</td>
+<td>40.293924 Å³</td>
+<td>Primitive two-atom cell</td>
+</tr>
+</tbody>
+</table>
+<p>Remember <code>1 kbar = 0.1 GPa</code>. Check the complete stress tensor, including shear components, rather than relying on hydrostatic pressure alone. A normal <code>Job completed</code> message can occur when the step limit is reached; compare the final diagnostics to the requested tolerances.</p>
+<h2 id="4-why-the-cell-did-not-visibly-move">4. Why the cell did not visibly move</h2>
+<p>The starting cubic parameter is 5.44210 Å, already close to the fitted scan minimum of 5.44206294 Å. The reported forces and stress are below the chosen thresholds. The final vectors and fractional coordinates are unchanged at the printed precision:</p>
+</div><div class="lesson-code"><div class="lesson-code-bar"><span>Input / output</span><button data-slot="button" data-variant="ghost" data-size="sm" class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&amp;_svg]:pointer-events-none [&amp;_svg]:shrink-0 [&amp;_svg:not([class*=&#x27;size-&#x27;])]:size-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-8 gap-1.5 rounded-md px-3 has-[&gt;svg]:px-2.5 code-copy" aria-label="Copy this code block">Copy</button></div><pre tabindex="0"><code>Primitive cell vectors (Å):
+0.000000  2.721050  2.721050
+2.721050  0.000000  2.721050
+2.721050  2.721050  0.000000
+
+Fractional coordinates:
+0.00000000  0.00000000  0.00000000  Si
+0.25000000  0.25000000  0.25000000  Si</code></pre><span class="sr-only" aria-live="polite"></span></div><div><p>This is a near-equilibrium convergence example. It does not demonstrate a large structural change or many geometry steps.</p>
+<p>For a follow-up exercise, copy the input into a new directory and start at cubic <code>a = 5.50 Å</code>, which means <code>LatticeConstant 2.75 Ang</code> for these vectors. Run a fresh variable-cell relaxation and compare the final cell. That altered-start calculation has not been supplied or run here; label its results as your own new exercise.</p>
+<h2 id="5-reuse-the-final-geometry">5. Reuse the final geometry</h2>
+<p>SIESTA can write geometry/restart files during a calculation. Inspect the files your build actually produced. If an output geometry file is absent, the final <code>outcell</code> and <code>outcoor</code> blocks provide the reported geometry.</p>
+<p>When transferring cell vectors already expressed in Å into an FDF block, use <code>LatticeConstant 1.0 Ang</code> with those physical vectors. Alternatively, keep the dimensionless primitive vectors and their scaling constant. Mixing both conventions would rescale the cell twice.</p>
+<h2 id="read-further">Read further</h2>
+<p><a href="https://docs.siesta-project.org/projects/siesta/en/5.4/tutorials/basic/structure-optimization/index.html">Official structural-optimisation tutorial</a> and <a href="https://docs.siesta-project.org/projects/siesta/en/5.4/reference/siesta.html">SIESTA 5.4 parameter reference</a>.</p>
+<p>Continue to <a href="/learn/siesta/troubleshooting">troubleshooting and reproducibility</a>.</p>
+</div></div><nav class="lesson-pager" aria-label="Adjacent lessons"><a href="/learn/siesta/convergence"><span>Previous lesson</span><strong>Test numerical convergence</strong></a><a href="/learn/siesta/troubleshooting"><span>Next lesson</span><strong>Troubleshoot and reproduce</strong></a></nav></article><aside class="lesson-toc"><p class="course-small-label">On this page</p><nav aria-label="Sections in this lesson"><a href="#1-add-the-relaxation-controls">1. Add the relaxation controls</a><a href="#2-launch-in-a-new-folder">2. Launch in a new folder</a><a href="#3-inspect-forces-stress-and-final-structure">3. Inspect forces, stress and final structure</a><a href="#4-why-the-cell-did-not-visibly-move">4. Why the cell did not visibly move</a><a href="#5-reuse-the-final-geometry">5. Reuse the final geometry</a><a href="#read-further">Read further</a></nav></aside></main><footer class="learning-footer"><a href="/">Charles Kipchumba Rotich</a><p>Computational materials science · Learning through reproducible examples</p><a href="mailto:rotich4499@gmail.com">Contact</a></footer></div><script src="/assets/site-ef09a5b8ba35.js" defer=""></script></body></html>
