@@ -44,6 +44,7 @@ export default function NiobiumNitride() {
 
     <h2>Tools and methods</h2>
     <p>Quantum ESPRESSO, density functional theory, molecular dynamics, AiiDA, ASE, structural relaxation and Birch–Murnaghan equation-of-state fitting.</p>
+    <p>Related research software: <a href="/projects/aiida-mechanical-workflows">AiiDA workflows for equation-of-state and elastic-response calculations</a>.</p>
     <p>For an introductory electronic-structure workflow with downloadable inputs, visit <a href="/learn/siesta">Learn SIESTA with silicon</a>.</p>
   </ProfileLayout>;
 }

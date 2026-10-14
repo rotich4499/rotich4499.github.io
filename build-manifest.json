@@ -22,6 +22,10 @@
       "title": "Niobium nitride bachelor’s project | Charles Rotich"
     },
     {
+      "route": "/projects/aiida-mechanical-workflows",
+      "title": "AiiDA mechanical-property workflows | Charles Rotich"
+    },
+    {
       "route": "/cv",
       "title": "CV | Charles Rotich"
     },

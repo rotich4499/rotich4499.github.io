@@ -8,6 +8,7 @@ import * as About from "./app/about/page";
 import * as Research from "./app/research/page";
 import * as Projects from "./app/projects/page";
 import * as NiobiumNitride from "./app/projects/niobium-nitride/page";
+import * as MechanicalWorkflows from "./app/projects/aiida-mechanical-workflows/page";
 import * as CV from "./app/cv/page";
 import * as Contact from "./app/contact/page";
 import * as CourseHome from "./app/learn/siesta/page";
@@ -38,6 +39,7 @@ export async function renderPages(assets: Assets) {
     { route: "/research", module: Research },
     { route: "/projects", module: Projects },
     { route: "/projects/niobium-nitride", module: NiobiumNitride },
+    { route: "/projects/aiida-mechanical-workflows", module: MechanicalWorkflows },
     { route: "/cv", module: CV },
     { route: "/contact", module: Contact },
     { route: "/learn/siesta", module: CourseHome },
