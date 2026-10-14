@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Troubleshoot and reproduce | Learn SIESTA · Charles Rotich</title><meta name="description" content="Diagnose common failures and keep a complete calculation record."/><link rel="icon" href="/favicon.svg" type="image/svg+xml"/><link rel="canonical" href="https://rotich4499.github.io/learn/siesta/troubleshooting/"/><link rel="stylesheet" href="/assets/site-9f49b6b69f0e.css"/></head><body><div class="learning-site"><a class="learning-skip" href="#lesson-main">Skip to learning content</a><header class="learning-header"><a class="brand" href="/"><span class="brand-mark">CR</span><span>Charles Rotich</span></a><nav aria-label="Website navigation"><a href="/">Profile</a><a href="/learn/siesta" aria-current="location">Learn SIESTA</a><a href="/learn/siesta/downloads">Downloads</a></nav><span class="learning-review">Phase 1 · Review edition</span></header><main class="course-shell"><aside class="course-sidebar"><p class="course-small-label">In this course</p><nav aria-label="SIESTA course lessons"><a href="/learn/siesta/start-here" class="course-nav-link"><span>01</span><strong>Start here</strong></a><a href="/learn/siesta/installation" class="course-nav-link"><span>02</span><strong>Install SIESTA</strong></a><a href="/learn/siesta/silicon-input" class="course-nav-link"><span>03</span><strong>Understand the silicon input</strong></a><a href="/learn/siesta/first-scf" class="course-nav-link"><span>04</span><strong>Run your first SCF calculation</strong></a><a href="/learn/siesta/convergence" class="course-nav-link"><span>05</span><strong>Test numerical convergence</strong></a><a href="/learn/siesta/relaxation" class="course-nav-link"><span>06</span><strong>Relax the silicon structure</strong></a><a href="/learn/siesta/troubleshooting" class="course-nav-link current" aria-current="page"><span>07</span><strong>Troubleshoot and reproduce</strong></a><a href="/learn/siesta/doxygen" class="course-nav-link"><span>08</span><strong>Document the scripts with Doxygen</strong></a><a class="course-nav-link" href="/learn/siesta/downloads"><span>↓</span><strong>Files &amp; downloads</strong></a><a class="course-nav-link" href="https://github.com/rotich4499/computational-materials-learning" target="_blank" rel="noreferrer"><span>↗</span><strong>Course on GitHub</strong></a></nav><p class="course-sidebar-note">One material. Complete inputs. Results you can inspect.</p></aside><details class="course-mobile-nav"><summary>Browse course lessons</summary><nav aria-label="SIESTA course lessons"><a href="/learn/siesta/start-here" class="course-nav-link"><span>01</span><strong>Start here</strong></a><a href="/learn/siesta/installation" class="course-nav-link"><span>02</span><strong>Install SIESTA</strong></a><a href="/learn/siesta/silicon-input" class="course-nav-link"><span>03</span><strong>Understand the silicon input</strong></a><a href="/learn/siesta/first-scf" class="course-nav-link"><span>04</span><strong>Run your first SCF calculation</strong></a><a href="/learn/siesta/convergence" class="course-nav-link"><span>05</span><strong>Test numerical convergence</strong></a><a href="/learn/siesta/relaxation" class="course-nav-link"><span>06</span><strong>Relax the silicon structure</strong></a><a href="/learn/siesta/troubleshooting" class="course-nav-link current" aria-current="page"><span>07</span><strong>Troubleshoot and reproduce</strong></a><a href="/learn/siesta/doxygen" class="course-nav-link"><span>08</span><strong>Document the scripts with Doxygen</strong></a><a class="course-nav-link" href="/learn/siesta/downloads"><span>↓</span><strong>Files &amp; downloads</strong></a><a class="course-nav-link" href="https://github.com/rotich4499/computational-materials-learning" target="_blank" rel="noreferrer"><span>↗</span><strong>Course on GitHub</strong></a></nav></details><article id="lesson-main" class="lesson-article"><div class="course-breadcrumb"><a href="/learn/siesta">Learn SIESTA</a><span>/</span><span>Lesson 7 of 8</span></div><header class="lesson-header"><p class="course-small-label">Reference · 4 min read</p><h1>Troubleshoot and reproduce</h1><p>Diagnose common failures and keep a complete calculation record.</p><a href="/learning/downloads/files/docs/troubleshooting.md" download="">Download this lesson as Markdown</a></header><div class="lesson-content"><div><p>Start with the last successful stage: build, launch, pseudopotential reading, electronic convergence, or geometry convergence. Change one cause at a time and keep the failed output for comparison.</p>
+<h2 id="installation-and-launch-checks">Installation and launch checks</h2>
+<table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Inspect first</th>
+<th>Next action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>siesta: command not found</td>
+<td><code>command -v siesta</code> and PATH</td>
+<td>Activate the installed bin directory</td>
+</tr>
+<tr>
+<td>Shared library not found</td>
+<td><code>ldd</code> output</td>
+<td>Resolve the missing library in the intended toolchain</td>
+</tr>
+<tr>
+<td>MPI symbols / library conflicts</td>
+<td>MPI wrappers and CMakeCache</td>
+<td>Reconfigure in a dedicated build folder with one MPI stack</td>
+</tr>
+<tr>
+<td>CMake cannot find a dependency</td>
+<td>Configure log and pkg-config metadata</td>
+<td>Check package installation and compatible paths</td>
+</tr>
+<tr>
+<td>Process count rejected</td>
+<td>Available cores / scheduler allocation</td>
+<td>Reduce MPI count to fit the resources</td>
+</tr>
+<tr>
+<td>Run ends without Job completed</td>
+<td><code>si.err</code> and final output lines</td>
+<td>Diagnose the actual failure before accepting an energy</td>
+</tr>
+</tbody>
+</table>
+<p>The installation guide uses <code>pipefail</code> with <code>tee</code> so build failures remain failures. Keep configure, build and test logs; the absence of the word &quot;error&quot; in a search is not enough to certify a successful build.</p>
+<h2 id="missing-or-incorrect-pseudopotential">Missing or incorrect pseudopotential</h2>
+<p>The species label is <code>Si</code>, so this course places <code>Si.psml</code> beside the input. Verify the file exists and its hash matches the reference.</p>
+</div><div class="lesson-code"><div class="lesson-code-bar"><span>Terminal · Bash</span><button data-slot="button" data-variant="ghost" data-size="sm" class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&amp;_svg]:pointer-events-none [&amp;_svg]:shrink-0 [&amp;_svg:not([class*=&#x27;size-&#x27;])]:size-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-8 gap-1.5 rounded-md px-3 has-[&gt;svg]:px-2.5 code-copy" aria-label="Copy this code block">Copy</button></div><pre tabindex="0"><code>ls -l Si.psml
+sha256sum Si.psml</code></pre><span class="sr-only" aria-live="polite"></span></div><div><p>A file with the correct name but a different functional, valence configuration or generation choice is a different scientific model. Do not compare its absolute energy directly against the reference without recording the change.</p>
+<h2 id="scf-does-not-converge">SCF does not converge</h2>
+<p>Inspect the iteration history, electronic occupations, initial geometry and mixed quantity. Lowering the mixing weight or allowing more iterations may help, but do not change the functional, basis, mesh and k-grid simultaneously just to make the message disappear.</p>
+<p>SIESTA 5.4 normally mixes the Hamiltonian, even though several historical options have <code>DM.</code> names. Read the reported convergence criterion and mixed quantity in the output.</p>
+<h2 id="the-relaxation-finishes-but-the-structure-is-wrong">The relaxation finishes but the structure is wrong</h2>
+<p>Check the cell convention first. In this example, <code>LatticeConstant</code> is half the conventional cubic parameter. A scale-factor mistake can change the cell dramatically while the input remains syntactically valid.</p>
+<p>Then inspect:</p>
+<ul>
+<li>Final forces against the specified force tolerance.</li>
+<li>All stress components against the target stress and tolerance.</li>
+<li>Whether the maximum number of geometry steps was reached.</li>
+<li>Whether cell relaxation was actually enabled.</li>
+<li>Whether the intended cell/atomic constraints were used.</li>
+</ul>
+<p>The author's starting geometry is already near equilibrium. An unchanged final structure is consistent with the small reported forces and stress.</p>
+<h2 id="restart-deliberately">Restart deliberately</h2>
+<p><code>DM.UseSaveDM</code> can allow reading a saved density matrix. The teaching launchers use a fresh folder, making accidental reuse less likely. For an intentional restart, use compatible geometry/species/settings and keep the earlier input and output. Record that a restart was used.</p>
+<p>Restart files are practical aids, not part of the small public reference package. Retain large files locally only when needed for continuation or analysis.</p>
+<h2 id="reproducibility-checklist">Reproducibility checklist</h2>
+<p>For each new run, save:</p>
+<ol>
+<li>The exact <code>.fdf</code> input and included files.</li>
+<li>The pseudopotential, upstream source and SHA-256 hash.</li>
+<li>SIESTA banner, source commit if known, compiler and MPI versions.</li>
+<li>Basis details, grid, k-mesh, electronic tolerance and spin/charge settings.</li>
+<li>Launch command, process count and any restart information.</li>
+<li>Complete output, error log and final structure.</li>
+<li>Analysis script and units used in each reported table.</li>
+</ol>
+<h2 id="what-is-and-is-not-established-here">What is and is not established here</h2>
+<p>The completed outputs and scan tables establish the reported example results. They do not supply basis-size convergence, a force/stress convergence study, raw per-point scan outputs, or proof that the reduced teaching build is identical to the reference executable. These gaps are recorded, not filled with guessed results.</p>
+<p>If requesting help, provide the input, the first part of the output showing the build identity, the last output lines and the actual error. Share enough context to diagnose the stage that failed.</p>
+<p>Continue to <a href="/learn/siesta/doxygen">the Doxygen exercise</a>. Full provenance: <a href="/learning/downloads/files/SOURCE_AUDIT.md">source audit</a>.</p>
+</div></div><nav class="lesson-pager" aria-label="Adjacent lessons"><a href="/learn/siesta/relaxation"><span>Previous lesson</span><strong>Relax the silicon structure</strong></a><a href="/learn/siesta/doxygen"><span>Next lesson</span><strong>Document the scripts with Doxygen</strong></a></nav></article><aside class="lesson-toc"><p class="course-small-label">On this page</p><nav aria-label="Sections in this lesson"><a href="#installation-and-launch-checks">Installation and launch checks</a><a href="#missing-or-incorrect-pseudopotential">Missing or incorrect pseudopotential</a><a href="#scf-does-not-converge">SCF does not converge</a><a href="#the-relaxation-finishes-but-the-structure-is-wrong">The relaxation finishes but the structure is wrong</a><a href="#restart-deliberately">Restart deliberately</a><a href="#reproducibility-checklist">Reproducibility checklist</a><a href="#what-is-and-is-not-established-here">What is and is not established here</a></nav></aside></main><footer class="learning-footer"><a href="/">Charles Kipchumba Rotich</a><p>Computational materials science · Learning through reproducible examples</p><a href="mailto:rotich4499@gmail.com">Contact</a></footer></div><script src="/assets/site-ef09a5b8ba35.js" defer=""></script></body></html>

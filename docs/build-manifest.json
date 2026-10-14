@@ -1,0 +1,77 @@
+{
+  "origin": "https://rotich4499.github.io",
+  "routes": [
+    {
+      "route": "/",
+      "title": "Charles Kipchumba Rotich | Computational Materials Researcher"
+    },
+    {
+      "route": "/about",
+      "title": "About | Charles Rotich"
+    },
+    {
+      "route": "/research",
+      "title": "Research | Charles Rotich"
+    },
+    {
+      "route": "/projects",
+      "title": "Projects | Charles Rotich"
+    },
+    {
+      "route": "/projects/niobium-nitride",
+      "title": "Niobium nitride bachelor’s project | Charles Rotich"
+    },
+    {
+      "route": "/cv",
+      "title": "CV | Charles Rotich"
+    },
+    {
+      "route": "/contact",
+      "title": "Contact | Charles Rotich"
+    },
+    {
+      "route": "/learn/siesta",
+      "title": "Learn SIESTA with silicon | Learn SIESTA · Charles Rotich"
+    },
+    {
+      "route": "/learn/siesta/downloads",
+      "title": "Files & downloads | Learn SIESTA · Charles Rotich"
+    },
+    {
+      "route": "/learn/siesta/start-here",
+      "title": "Start here | Learn SIESTA · Charles Rotich"
+    },
+    {
+      "route": "/learn/siesta/installation",
+      "title": "Install SIESTA | Learn SIESTA · Charles Rotich"
+    },
+    {
+      "route": "/learn/siesta/silicon-input",
+      "title": "Understand the silicon input | Learn SIESTA · Charles Rotich"
+    },
+    {
+      "route": "/learn/siesta/first-scf",
+      "title": "Run your first SCF calculation | Learn SIESTA · Charles Rotich"
+    },
+    {
+      "route": "/learn/siesta/convergence",
+      "title": "Test numerical convergence | Learn SIESTA · Charles Rotich"
+    },
+    {
+      "route": "/learn/siesta/relaxation",
+      "title": "Relax the silicon structure | Learn SIESTA · Charles Rotich"
+    },
+    {
+      "route": "/learn/siesta/troubleshooting",
+      "title": "Troubleshoot and reproduce | Learn SIESTA · Charles Rotich"
+    },
+    {
+      "route": "/learn/siesta/doxygen",
+      "title": "Document the scripts with Doxygen | Learn SIESTA · Charles Rotich"
+    }
+  ],
+  "assets": {
+    "css": "/assets/site-9f49b6b69f0e.css",
+    "script": "/assets/site-ef09a5b8ba35.js"
+  }
+}

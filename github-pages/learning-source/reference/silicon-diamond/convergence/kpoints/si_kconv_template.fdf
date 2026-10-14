@@ -1,0 +1,48 @@
+SystemName          Si_PBEsol_kconvergence
+SystemLabel         Si
+
+NumberOfAtoms       2
+NumberOfSpecies     1
+
+%block ChemicalSpeciesLabel
+   1   14   Si
+%endblock ChemicalSpeciesLabel
+
+PAO.BasisType       split
+PAO.BasisSize       DZP
+
+XC.functional       GGA
+XC.authors          PBEsol
+
+# Starting conventional cubic lattice parameter ~5.44 Ang
+LatticeConstant     2.720000 Ang
+
+%block LatticeVectors
+   0.0   1.0   1.0
+   1.0   0.0   1.0
+   1.0   1.0   0.0
+%endblock LatticeVectors
+
+AtomicCoordinatesFormat Fractional
+
+%block AtomicCoordinatesAndAtomicSpecies
+   0.000000   0.000000   0.000000   1
+   0.250000   0.250000   0.250000   1
+%endblock AtomicCoordinatesAndAtomicSpecies
+
+# Temporarily high enough for k-point convergence
+MeshCutoff          400 Ry
+
+%block kgrid.MonkhorstPack
+   KGRID   0       0       0.0
+   0       KGRID   0       0.0
+   0       0       KGRID   0.0
+%endblock kgrid.MonkhorstPack
+
+MaxSCFIterations    150
+DM.Tolerance        1.0d-5
+DM.MixingWeight     0.10
+
+SolutionMethod      diagon
+
+NetCharge           0.0

@@ -1,0 +1,638 @@
+{
+  "title": "Learn SIESTA with silicon",
+  "author": "Charles Kipchumba Rotich",
+  "updated": "14 October 2026",
+  "repository": "https://github.com/rotich4499/computational-materials-learning",
+  "lessons": [
+    {
+      "slug": "start-here",
+      "title": "Start here",
+      "category": "Orientation",
+      "summary": "The workflow, files and scientific questions behind your first calculation.",
+      "headings": [
+        {
+          "title": "Choose your starting point",
+          "id": "choose-your-starting-point"
+        },
+        {
+          "title": "What you need",
+          "id": "what-you-need"
+        },
+        {
+          "title": "Download and inspect the course",
+          "id": "download-and-inspect-the-course"
+        },
+        {
+          "title": "The calculation workflow",
+          "id": "the-calculation-workflow"
+        },
+        {
+          "title": "Where the evidence comes from",
+          "id": "where-the-evidence-comes-from"
+        },
+        {
+          "title": "A small first exercise",
+          "id": "a-small-first-exercise"
+        }
+      ],
+      "blocks": [
+        {
+          "kind": "html",
+          "html": "<p>Learn to build SIESTA, run a two-atom silicon calculation, choose numerical settings, and check a relaxed structure. These lessons follow Charles Rotich's supplied files and results, with complete downloads so you can inspect every input.</p>\n<h2 id=\"choose-your-starting-point\">Choose your starting point</h2>\n<p>If you are new to scientific computing, follow the lessons in order. If SIESTA already works on your machine, start with the silicon input and first SCF lesson. Experienced readers can open the convergence tables and reference outputs directly.</p>\n<table>\n<thead>\n<tr>\n<th>Lesson</th>\n<th>You will be able to</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>Installation</td>\n<td>Build an MPI-enabled executable with Ubuntu system libraries</td>\n</tr>\n<tr>\n<td>Silicon input</td>\n<td>Explain the cell, basis, functional and numerical controls</td>\n</tr>\n<tr>\n<td>First SCF</td>\n<td>Run a calculation and confirm electronic convergence</td>\n</tr>\n<tr>\n<td>Convergence</td>\n<td>Compare mesh, k-point and lattice scans quantitatively</td>\n</tr>\n<tr>\n<td>Relaxation</td>\n<td>Interpret force, stress and final-geometry checks</td>\n</tr>\n<tr>\n<td>Troubleshooting</td>\n<td>Diagnose failures without confusing completion with convergence</td>\n</tr>\n<tr>\n<td>Doxygen</td>\n<td>Document the teaching Python scripts and shell launcher</td>\n</tr>\n</tbody>\n</table>\n<h2 id=\"what-you-need\">What you need</h2>\n<ul>\n<li>A Linux workstation or an allocated HPC compute node.</li>\n<li>Bash and basic terminal navigation.</li>\n<li>An MPI-enabled SIESTA build; the installation lesson targets Ubuntu 26.04.</li>\n<li>Python 3 for the standard-library teaching scripts.</li>\n<li>NumPy and Matplotlib only if you want to regenerate the original plots.</li>\n</ul>\n<p>The installation lesson needs administrator access for Ubuntu packages. On a managed cluster, use the compiler/MPI modules approved by your administrators rather than installing workstation packages.</p>\n<h2 id=\"download-and-inspect-the-course\">Download and inspect the course</h2>\n<p>Download the complete course ZIP from the Downloads page, extract it with your file manager, and open a terminal in the extracted <code>computational-materials-learning</code> folder.</p>\n"
+        },
+        {
+          "kind": "code",
+          "code": "pwd\nls\nls examples/silicon-diamond",
+          "language": "bash"
+        },
+        {
+          "kind": "html",
+          "html": "<p>You should see <code>docs</code>, <code>examples</code>, <code>reference</code>, <code>scripts</code> and <code>doxygen</code>. Run the lesson commands one block at a time; do not execute the Markdown file as a shell script.</p>\n<h2 id=\"the-calculation-workflow\">The calculation workflow</h2>\n<ol>\n<li>Define the material and physical model: silicon, PBEsol, a DZP basis, and a norm-conserving pseudopotential.</li>\n<li>Solve the electronic problem at fixed geometry: SCF.</li>\n<li>Check numerical accuracy by changing one setting at a time.</li>\n<li>Relax geometry using converged electronic calculations at each step.</li>\n<li>Inspect final forces, stress and structure; archive the inputs and output together.</li>\n</ol>\n<p>SCF is the repeated solution of the electronic density and Hamiltonian until they agree within tolerance. Relaxation moves atoms or changes the cell using calculated forces and stress. A converged SCF cycle is necessary at each geometry, but does not by itself establish a converged geometry.</p>\n<h2 id=\"where-the-evidence-comes-from\">Where the evidence comes from</h2>\n<p>The course includes the author's completed runs and scan tables. The reference SCF reports <code>-230.042602 eV</code> for the two-atom primitive cell. The installation guide targets SIESTA 5.4.2, while the executable banner in both outputs reads <code>unreleased e486d1206 (2025-12-16)</code>. Record that distinction when reproducing the work.</p>\n<p>The reference files have been inspected. The SIESTA build and numerical calculations have not been repeated in the website-building environment. See <a href=\"/learning/downloads/files/SOURCE_AUDIT.md\">the source audit</a> for the exact provenance and limitations.</p>\n<h2 id=\"a-small-first-exercise\">A small first exercise</h2>\n<p>Before running anything, answer: how many atoms are in the silicon input, and how many valence electrons should that pseudopotential provide? The input has two Si atoms; the PSML file specifies four valence electrons per Si, so the neutral cell contains eight.</p>\n<p>Continue with <a href=\"/learn/siesta/installation\">installing SIESTA</a>, or <a href=\"/learn/siesta/silicon-input\">understanding the silicon input</a> if your executable is already ready.</p>\n"
+        }
+      ],
+      "readingMinutes": 4
+    },
+    {
+      "slug": "installation",
+      "title": "Install SIESTA",
+      "category": "Setup",
+      "summary": "Compilers, MPI, numerical libraries, configuration and build checkpoints.",
+      "headings": [
+        {
+          "title": "1. Check the environment",
+          "id": "1-check-the-environment"
+        },
+        {
+          "title": "2. Install the system packages",
+          "id": "2-install-the-system-packages"
+        },
+        {
+          "title": "3. Verify the compiler and MPI wrappers",
+          "id": "3-verify-the-compiler-and-mpi-wrappers"
+        },
+        {
+          "title": "4. Prepare the source",
+          "id": "4-prepare-the-source"
+        },
+        {
+          "title": "5. Configure",
+          "id": "5-configure"
+        },
+        {
+          "title": "6. Build, test and install",
+          "id": "6-build-test-and-install"
+        },
+        {
+          "title": "7. Activate and check",
+          "id": "7-activate-and-check"
+        },
+        {
+          "title": "Keep the build record",
+          "id": "keep-the-build-record"
+        }
+      ],
+      "blocks": [
+        {
+          "kind": "html",
+          "html": "<p>This lesson expands the author's Ubuntu 26.04 guide into a staged build with checkpoints. The main compiler, MPI and numerical libraries come from Ubuntu packages. SIESTA-specific dependencies such as libfdf or a compatible libgridxc may still be fetched and built by CMake; inspect the configure log to see what was actually used.</p>\n<h2 id=\"1-check-the-environment\">1. Check the environment</h2>\n<p>Use a normal Bash terminal. For this system-library route, deactivate Conda and avoid mixing private MPI or compiler paths with Ubuntu libraries. This lesson installs software on your existing Ubuntu system; it does not upgrade the operating system.</p>\n"
+        },
+        {
+          "kind": "code",
+          "code": "cat /etc/os-release\ncommand -v gcc gfortran cmake mpifort",
+          "language": "bash"
+        },
+        {
+          "kind": "html",
+          "html": "<p>The reference output was produced on x86_64 with GNU 15.2.0. That is recorded provenance, not a requirement to copy a CPU-specific <code>-march=native</code> build onto other machines. Keep compiler and MPI versions consistent across the libraries you use.</p>\n<h2 id=\"2-install-the-system-packages\">2. Install the system packages</h2>\n<p>Refresh package information, then install the compiler/build tools and libraries used by this route:</p>\n"
+        },
+        {
+          "kind": "code",
+          "code": "sudo apt update\nsudo apt install -y \\\n  build-essential git wget curl cmake pkg-config \\\n  gcc g++ gfortran openmpi-bin libopenmpi-dev \\\n  libopenblas-dev liblapack-dev libscalapack-openmpi-dev \\\n  libfftw3-dev libfftw3-mpi-dev \\\n  libhdf5-openmpi-dev libnetcdf-dev libnetcdf-mpi-dev libnetcdff-dev \\\n  libxc-dev libxmlf90-dev libpsml-dev libxml2-dev \\\n  python3 python3-dev python3-venv \\\n  make ninja-build autoconf automake libtool m4 \\\n  bison flex texinfo unzip",
+          "language": "bash"
+        },
+        {
+          "kind": "html",
+          "html": "<p>If a package has no installation candidate, stop and inspect <code>apt-cache policy PACKAGE_NAME</code>. Package availability depends on enabled Ubuntu repositories and architecture. Do not silently switch MPI implementations to get past a missing package.</p>\n<table>\n<thead>\n<tr>\n<th>Component</th>\n<th>Role</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>GCC / GFortran</td>\n<td>Compile C, C++ and Fortran code</td>\n</tr>\n<tr>\n<td>CMake, Make / Ninja</td>\n<td>Configure and build the application</td>\n</tr>\n<tr>\n<td>Open MPI</td>\n<td>Run and compile MPI parallel programs</td>\n</tr>\n<tr>\n<td>OpenBLAS / LAPACK</td>\n<td>Dense linear algebra</td>\n</tr>\n<tr>\n<td>ScaLAPACK</td>\n<td>Distributed linear algebra for MPI</td>\n</tr>\n<tr>\n<td>FFTW</td>\n<td>FFT facilities where enabled</td>\n</tr>\n<tr>\n<td>NetCDF / HDF5</td>\n<td>Scientific I/O and post-processing support</td>\n</tr>\n<tr>\n<td>LibXC / libgridxc</td>\n<td>Exchange-correlation functional support</td>\n</tr>\n<tr>\n<td>libPSML / XMLF90</td>\n<td>Read PSML pseudopotentials and XML</td>\n</tr>\n</tbody>\n</table>\n<p>The teaching calculation uses ordinary diagonalisation. Native ELPA and ELSI are disabled in the configure command below to keep this first build smaller. This intentionally differs from the author's reference executable, which reports ELSI and external ELPA support. They can be introduced as an advanced build later.</p>\n<h2 id=\"3-verify-the-compiler-and-mpi-wrappers\">3. Verify the compiler and MPI wrappers</h2>\n"
+        },
+        {
+          "kind": "code",
+          "code": "gcc --version | head -1\ngfortran --version | head -1\ncmake --version | head -1\ncommand -v mpicc mpifort mpirun\nmpifort --showme:command\nmpifort --showme:link\npkg-config --modversion libxc xmlf90 libpsml",
+          "language": "bash"
+        },
+        {
+          "kind": "html",
+          "html": "<p>The wrappers should identify the intended Ubuntu toolchain. A library version string is useful evidence; it is not proof that CMake selected that exact installation. The next log is the decisive check.</p>\n<h2 id=\"4-prepare-the-source\">4. Prepare the source</h2>\n<p>Use dedicated versioned directories. These commands stop if a source folder already exists instead of deleting an existing installation.</p>\n"
+        },
+        {
+          "kind": "code",
+          "code": "export SIESTA_SRC=\"$HOME/src/siesta-5.4.2\"\nexport SIESTA_BUILD=\"$HOME/build/siesta-5.4.2-system\"\nexport SIESTA_PREFIX=\"$HOME/local/siesta-5.4.2-system\"\nexport NBUILD=\"$(nproc)\"\nmkdir -p \"$HOME/src\" \"$HOME/build\" \"$HOME/local\"\ntest ! -e \"$SIESTA_SRC\" || { echo 'Source directory exists; inspect or reuse it.'; false; }",
+          "language": "bash"
+        },
+        {
+          "kind": "html",
+          "html": "<p>If the last command fails, resolve the existing folder before continuing. Download the source only after that check passes:</p>\n"
+        },
+        {
+          "kind": "code",
+          "code": "wget -O \"$HOME/src/siesta-5.4.2.tar.gz\" \\\n  https://gitlab.com/siesta-project/siesta/-/archive/5.4.2/siesta-5.4.2.tar.gz\ntar -xzf \"$HOME/src/siesta-5.4.2.tar.gz\" -C \"$HOME/src\"\nls \"$SIESTA_SRC\"\nmkdir -p \"$SIESTA_BUILD\"",
+          "language": "bash"
+        },
+        {
+          "kind": "html",
+          "html": "<p>For a later session, re-export these four variables. Build directories are tied to the compiler and MPI used during configuration; use another dedicated build directory when changing toolchains.</p>\n<h2 id=\"5-configure\">5. Configure</h2>\n<p>Enable <code>pipefail</code> so a failed CMake command is not hidden by successful logging through <code>tee</code>.</p>\n"
+        },
+        {
+          "kind": "code",
+          "code": "set -o pipefail\ncmake \\\n  -S \"$SIESTA_SRC\" -B \"$SIESTA_BUILD\" \\\n  -G \"Unix Makefiles\" \\\n  -DCMAKE_INSTALL_PREFIX=\"$SIESTA_PREFIX\" \\\n  -DCMAKE_BUILD_TYPE=Release \\\n  -DCMAKE_C_COMPILER=mpicc \\\n  -DCMAKE_Fortran_COMPILER=mpifort \\\n  -DSIESTA_WITH_MPI=ON \\\n  -DSIESTA_WITH_OPENMP=OFF \\\n  -DSIESTA_WITH_NETCDF=ON \\\n  -DSIESTA_WITH_LIBXC=ON \\\n  -DSIESTA_WITH_FLOOK=OFF \\\n  -DSIESTA_WITH_ELPA=OFF \\\n  -DSIESTA_WITH_ELSI=OFF \\\n  -DBLAS_LIBRARY=openblas \\\n  -DLAPACK_LIBRARY=openblas \\\n  -DSCALAPACK_LIBRARY=-lscalapack-openmpi \\\n  2>&1 | tee \"$SIESTA_BUILD/siesta-configure.log\"",
+          "language": "bash"
+        },
+        {
+          "kind": "html",
+          "html": "<p>Library names avoid the original guide's hard-coded x86_64 library paths. If detection fails, use the actual paths reported by your package manager; keep the selected libraries consistent with Open MPI. Required domain-library compatibility may cause CMake to build a bundled dependency.</p>\n"
+        },
+        {
+          "kind": "code",
+          "code": "tail -40 \"$SIESTA_BUILD/siesta-configure.log\"\ngrep -Ei 'MPI|BLAS|LAPACK|NETCDF|LIBXC|PSML|GRIDXC|FDF' \\\n  \"$SIESTA_BUILD/CMakeCache.txt\"",
+          "language": "bash"
+        },
+        {
+          "kind": "html",
+          "html": "<p>Continue only after configuration and generation succeed. Review warnings about unused manually specified variables and missing libraries rather than treating a partially generated folder as a completed build.</p>\n<h2 id=\"6-build-test-and-install\">6. Build, test and install</h2>\n"
+        },
+        {
+          "kind": "code",
+          "code": "cmake --build \"$SIESTA_BUILD\" --parallel \"$NBUILD\" \\\n  2>&1 | tee \"$SIESTA_BUILD/siesta-build.log\"\nctest --test-dir \"$SIESTA_BUILD\" --output-on-failure \\\n  2>&1 | tee \"$SIESTA_BUILD/siesta-ctest.log\"\ncmake --install \"$SIESTA_BUILD\"",
+          "language": "bash"
+        },
+        {
+          "kind": "html",
+          "html": "<p>On a low-memory machine, reduce <code>NBUILD</code> before building. Passing tests is useful only if tests were actually discovered and run; a &quot;No tests were found&quot; message is not equivalent to a validated scientific installation.</p>\n<h2 id=\"7-activate-and-check\">7. Activate and check</h2>\n"
+        },
+        {
+          "kind": "code",
+          "code": "export PATH=\"$SIESTA_PREFIX/bin:$PATH\"\nhash -r\ncommand -v siesta\nldd \"$SIESTA_PREFIX/bin/siesta\" | grep -E 'mpi|blas|scalapack|netcdf|xc|not found'",
+          "language": "bash"
+        },
+        {
+          "kind": "html",
+          "html": "<p><code>not found</code> indicates a missing shared library. On a dynamically linked build, confirm that the MPI library paths match the Ubuntu MPI wrappers used during configuration. To activate SIESTA in future terminals, add these lines once to <code>~/.bashrc</code> using your editor:</p>\n"
+        },
+        {
+          "kind": "code",
+          "code": "export SIESTA_HOME=\"$HOME/local/siesta-5.4.2-system\"\nexport PATH=\"$SIESTA_HOME/bin:$PATH\"",
+          "language": "bash"
+        },
+        {
+          "kind": "html",
+          "html": "<p>Open a new terminal, or source your edited file. Your first completed SCF output will supply the executable banner and a small end-to-end numerical check.</p>\n<h2 id=\"keep-the-build-record\">Keep the build record</h2>\n<p>Retain configure, build and test logs, the compiler/MPI versions and the first successful output. The author's note names 5.4.2, but the supplied outputs display a commit banner. Record what your executable prints rather than promising identical results from every build.</p>\n<p>Sources: <a href=\"/learning/downloads/files/source-guides/SIESTA_5.4.2_UBUNTU26_SYSTEM_LIBS_GUIDE.md\">author's original guide</a>, <a href=\"https://docs.siesta-project.org/projects/siesta/en/5.4/installation/build-manually.html\">official SIESTA build instructions</a>, and <a href=\"https://packages.ubuntu.com/\">Ubuntu package catalogue</a>.</p>\n"
+        }
+      ],
+      "readingMinutes": 6
+    },
+    {
+      "slug": "silicon-input",
+      "title": "Understand the silicon input",
+      "category": "Foundations",
+      "summary": "Explain the primitive cell, pseudopotential, basis and every important control.",
+      "headings": [
+        {
+          "title": "The physical model",
+          "id": "the-physical-model"
+        },
+        {
+          "title": "Why the lattice constant is half the cubic parameter",
+          "id": "why-the-lattice-constant-is-half-the-cubic-parameter"
+        },
+        {
+          "title": "Complete SCF input",
+          "id": "complete-scf-input"
+        },
+        {
+          "title": "Read the important controls",
+          "id": "read-the-important-controls"
+        },
+        {
+          "title": "Check the pseudopotential",
+          "id": "check-the-pseudopotential"
+        }
+      ],
+      "blocks": [
+        {
+          "kind": "html",
+          "html": "<p>This example is elemental silicon in the diamond structure. It uses a two-atom primitive cell. Carbon diamond and silicon carbide are different systems; neither is represented by this input.</p>\n<h2 id=\"the-physical-model\">The physical model</h2>\n<table>\n<thead>\n<tr>\n<th>Setting</th>\n<th>Supplied value</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>Atoms / species</td>\n<td>2 Si atoms / 1 species</td>\n</tr>\n<tr>\n<td>Functional</td>\n<td>GGA PBEsol</td>\n</tr>\n<tr>\n<td>Basis</td>\n<td>Split, double-zeta plus polarisation (DZP)</td>\n</tr>\n<tr>\n<td>Pseudopotential</td>\n<td>Si PSML, norm-conserving, scalar relativistic</td>\n</tr>\n<tr>\n<td>Valence electrons</td>\n<td>4 per Si; 8 in the neutral cell</td>\n</tr>\n<tr>\n<td>Real-space grid</td>\n<td>MeshCutoff 200 Ry</td>\n</tr>\n<tr>\n<td>k-point mesh</td>\n<td>10×10×10, no shift</td>\n</tr>\n<tr>\n<td>Final DM tolerance</td>\n<td>1.0d-7</td>\n</tr>\n<tr>\n<td>Charge</td>\n<td>0</td>\n</tr>\n<tr>\n<td>Spin</td>\n<td>Non-polarised in the supplied output</td>\n</tr>\n</tbody>\n</table>\n<p>The final inputs do not specify every basis-confinement setting, electronic temperature or solver default. For exact reproduction, retain the echoed input and reported settings from the output alongside the executable version.</p>\n<h2 id=\"why-the-lattice-constant-is-half-the-cubic-parameter\">Why the lattice constant is half the cubic parameter</h2>\n<p>The dimensionless primitive vectors are <code>(0,1,1)</code>, <code>(1,0,1)</code> and <code>(1,1,0)</code>. SIESTA multiplies them by <code>LatticeConstant</code>. For this representation, the conventional cubic parameter is <code>a = 2 × LatticeConstant</code>.</p>\n"
+        },
+        {
+          "kind": "code",
+          "code": "LatticeConstant     2.72105 Ang\n\n%block LatticeVectors\n   0.0   1.0   1.0\n   1.0   0.0   1.0\n   1.0   1.0   0.0\n%endblock LatticeVectors",
+          "language": "text"
+        },
+        {
+          "kind": "html",
+          "html": "<p>Thus <code>a = 5.44210 Å</code>; each primitive-vector length is about 3.848146 Å, and the primitive volume is about 40.293924 Å³. The two basis atoms sit at fractional coordinates <code>(0,0,0)</code> and <code>(¼,¼,¼)</code> relative to the primitive vectors. Do not interpret those coordinates as fractions of a conventional cubic cell.</p>\n<h2 id=\"complete-scf-input\">Complete SCF input</h2>\n<p>Download <a href=\"/learning/downloads/files/examples/silicon-diamond/scf/si_scf.fdf\">si_scf.fdf</a>. The supplied input is:</p>\n"
+        },
+        {
+          "kind": "code",
+          "code": "SystemName          Si_PBEsol_LatticeScan\nSystemLabel         Si\nNumberOfAtoms       2\nNumberOfSpecies     1\n\n%block ChemicalSpeciesLabel\n   1   14   Si\n%endblock ChemicalSpeciesLabel\n\nPAO.BasisType       split\nPAO.BasisSize       DZP\nXC.functional       GGA\nXC.authors          PBEsol\n\nLatticeConstant     2.72105 Ang\n%block LatticeVectors\n   0.0   1.0   1.0\n   1.0   0.0   1.0\n   1.0   1.0   0.0\n%endblock LatticeVectors\n\nAtomicCoordinatesFormat Fractional\n%block AtomicCoordinatesAndAtomicSpecies\n   0.000000   0.000000   0.000000   1\n   0.250000   0.250000   0.250000   1\n%endblock AtomicCoordinatesAndAtomicSpecies\n\nMeshCutoff          200 Ry\n%block kgrid.MonkhorstPack\n   10   0    0    0.0\n    0  10    0    0.0\n    0   0   10    0.0\n%endblock kgrid.MonkhorstPack\n\nMaxSCFIterations    150\nDM.Tolerance        1.0d-7\nDM.MixingWeight     0.10\nSolutionMethod      diagon\nNetCharge           0.0",
+          "language": "text"
+        },
+        {
+          "kind": "html",
+          "html": "<p>The historical <code>SystemName</code> contains &quot;LatticeScan&quot; even though this file runs one SCF calculation. The run type is determined by the input options, not by this descriptive name.</p>\n<h2 id=\"read-the-important-controls\">Read the important controls</h2>\n<table>\n<thead>\n<tr>\n<th>Entry</th>\n<th>Meaning</th>\n<th>What changes if you edit it?</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>SystemLabel</td>\n<td>Prefix for SIESTA-generated files</td>\n<td>Output names and restart-file names</td>\n</tr>\n<tr>\n<td>ChemicalSpeciesLabel</td>\n<td>Species index, atomic number and symbol</td>\n<td>Species-to-pseudopotential mapping</td>\n</tr>\n<tr>\n<td>PAO.BasisSize</td>\n<td>Local orbital basis size</td>\n<td>Variational flexibility, cost and basis error</td>\n</tr>\n<tr>\n<td>XC.authors</td>\n<td>Exchange-correlation choice</td>\n<td>Physical approximation; match the pseudopotential</td>\n</tr>\n<tr>\n<td>MeshCutoff</td>\n<td>Real-space integration-grid fineness</td>\n<td>Grid accuracy and cost; not a plane-wave basis cutoff</td>\n</tr>\n<tr>\n<td>kgrid.MonkhorstPack</td>\n<td>Reciprocal-space sampling</td>\n<td>Brillouin-zone integration accuracy</td>\n</tr>\n<tr>\n<td>DM.Tolerance</td>\n<td>Density-matrix convergence threshold</td>\n<td>Electronic stopping accuracy</td>\n</tr>\n<tr>\n<td>DM.MixingWeight</td>\n<td>Mixing weight used during SCF</td>\n<td>Convergence behaviour; not an accuracy guarantee</td>\n</tr>\n<tr>\n<td>MaxSCFIterations</td>\n<td>Upper limit on SCF cycles</td>\n<td>Allows more attempts; does not guarantee convergence</td>\n</tr>\n<tr>\n<td>SolutionMethod</td>\n<td>Electronic solver</td>\n<td><code>diagon</code> uses diagonalisation</td>\n</tr>\n<tr>\n<td>NetCharge</td>\n<td>Cell charge relative to neutrality</td>\n<td>Electron count and charged-system treatment</td>\n</tr>\n</tbody>\n</table>\n<p>SIESTA 5.4 normally mixes the Hamiltonian; a <code>DM.*</code> option name alone does not establish that density-matrix mixing was selected. The reference output explicitly reports Hamiltonian mixing and a DM+H convergence criterion.</p>\n<h2 id=\"check-the-pseudopotential\">Check the pseudopotential</h2>\n<p>Use the supplied <a href=\"/learning/downloads/files/examples/silicon-diamond/pseudopotentials/Si.psml\">Si.psml</a> rather than substituting a similarly named file. The author attributes it to <a href=\"https://www.pseudo-dojo.org/\">PseudoDojo</a>, PBEsol, scalar-relativistic NC, stringent, PSML.</p>\n"
+        },
+        {
+          "kind": "code",
+          "code": "sha256sum examples/silicon-diamond/pseudopotentials/Si.psml",
+          "language": "bash"
+        },
+        {
+          "kind": "html",
+          "html": "<p>Expected SHA-256:</p>\n"
+        },
+        {
+          "kind": "code",
+          "code": "fa0e9fa6ca7a97ab07879cd1bc8d858ebb32a90f262535b578d14d4d515bdc95",
+          "language": "text"
+        },
+        {
+          "kind": "html",
+          "html": "<p>Its embedded provenance identifies ONCVPSP 3.3.0, PSML 1.1, LibXC PBEsol IDs 116 and 133, and four valence electrons. The author's collection label v0.4.1 is preserved separately in the source audit.</p>\n<p>Exercise: if <code>LatticeConstant</code> were changed to <code>5.44210 Ang</code> while keeping these dimensionless vectors, the intended cubic parameter would double. This is why cell conventions must be stated explicitly.</p>\n<p>Continue to <a href=\"/learn/siesta/first-scf\">your first SCF run</a>. Parameter reference: <a href=\"https://docs.siesta-project.org/projects/siesta/en/5.4/reference/siesta.html\">SIESTA 5.4 manual</a>.</p>\n"
+        }
+      ],
+      "readingMinutes": 4
+    },
+    {
+      "slug": "first-scf",
+      "title": "Run your first SCF calculation",
+      "category": "Calculate",
+      "summary": "Launch a fresh run, check convergence and read the supplied reference result.",
+      "headings": [
+        {
+          "title": "1. Prepare a fresh directory",
+          "id": "1-prepare-a-fresh-directory"
+        },
+        {
+          "title": "2. Run one of these alternatives",
+          "id": "2-run-one-of-these-alternatives"
+        },
+        {
+          "title": "3. Inspect progress and completion",
+          "id": "3-inspect-progress-and-completion"
+        },
+        {
+          "title": "4. Interpret the result",
+          "id": "4-interpret-the-result"
+        },
+        {
+          "title": "5. Use the portable launcher",
+          "id": "5-use-the-portable-launcher"
+        },
+        {
+          "title": "Check your understanding",
+          "id": "check-your-understanding"
+        }
+      ],
+      "blocks": [
+        {
+          "kind": "html",
+          "html": "<p>At fixed atomic positions and cell vectors, solve the electronic problem until the density matrix and Hamiltonian satisfy the chosen tolerances. This lesson uses the input from the previous page and the same PBEsol Si pseudopotential.</p>\n<h2 id=\"1-prepare-a-fresh-directory\">1. Prepare a fresh directory</h2>\n<p>Start in the extracted course folder:</p>\n"
+        },
+        {
+          "kind": "code",
+          "code": "mkdir -p runs\nexport SCF_RUN=\"$(mktemp -d \"$PWD/runs/scf-manual-XXXXXX\")\"\ncp examples/silicon-diamond/scf/si_scf.fdf \"$SCF_RUN/si.fdf\"\ncp examples/silicon-diamond/pseudopotentials/Si.psml \"$SCF_RUN/\"\ncd \"$SCF_RUN\"\nls",
+          "language": "bash"
+        },
+        {
+          "kind": "html",
+          "html": "<p>You should see <code>si.fdf</code> and <code>Si.psml</code>. A fresh folder makes the initial condition clear and avoids an accidental density-matrix restart from an unrelated calculation.</p>\n<h2 id=\"2-run-one-of-these-alternatives\">2. Run one of these alternatives</h2>\n<p>For a small one-process run:</p>\n"
+        },
+        {
+          "kind": "code",
+          "code": "export OMP_NUM_THREADS=1\nexport OPENBLAS_NUM_THREADS=1\nsiesta < si.fdf > si.out 2> si.err",
+          "language": "bash"
+        },
+        {
+          "kind": "html",
+          "html": "<p>For an MPI-enabled executable with four processes:</p>\n"
+        },
+        {
+          "kind": "code",
+          "code": "export OMP_NUM_THREADS=1\nexport OPENBLAS_NUM_THREADS=1\nmpirun -np 4 siesta < si.fdf > si.out 2> si.err",
+          "language": "bash"
+        },
+        {
+          "kind": "html",
+          "html": "<p>Choose a process count supported by your machine or allocation. Four processes is the supplied script's example; it is not a universal optimum. A two-atom calculation may be faster with fewer processes because MPI has overhead.</p>\n<p>The <code>&lt;</code> operator supplies the input; <code>&gt;</code> writes standard output; <code>2&gt;</code> captures standard error. On a cluster, put the launch inside an allocation using the scheduler's recommended launcher. The archive does not contain a verified Slurm submission script.</p>\n<h2 id=\"3-inspect-progress-and-completion\">3. Inspect progress and completion</h2>\n"
+        },
+        {
+          "kind": "code",
+          "code": "tail -30 si.out\ngrep -E 'SCF cycle converged|Job completed' si.out\ngrep 'siesta:         Total =' si.out | tail -1\ngrep 'siesta:         Fermi =' si.out | tail -1",
+          "language": "bash"
+        },
+        {
+          "kind": "html",
+          "html": "<p>Check both electronic convergence and normal termination. A finite energy printed during an incomplete job does not establish success.</p>\n<p>The supplied <a href=\"/learning/downloads/files/reference/silicon-diamond/scf_si/si_scf.out\">SCF reference output</a> reports:</p>\n"
+        },
+        {
+          "kind": "code",
+          "code": "SCF cycle converged after 18 iterations\nsiesta:         Total =    -230.042602\nsiesta:         Fermi =      -4.326879\nJob completed",
+          "language": "text"
+        },
+        {
+          "kind": "html",
+          "html": "<h2 id=\"4-interpret-the-result\">4. Interpret the result</h2>\n<table>\n<thead>\n<tr>\n<th>Quantity</th>\n<th>Reference</th>\n<th>Interpretation</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>Total energy</td>\n<td>-230.042602 eV</td>\n<td>Energy of the two-atom computational cell</td>\n</tr>\n<tr>\n<td>Fermi energy</td>\n<td>-4.326879 eV</td>\n<td>Fermi level in this calculation's internal potential convention</td>\n</tr>\n<tr>\n<td>SCF cycles</td>\n<td>18</td>\n<td>Electronic iterations in the supplied run</td>\n</tr>\n<tr>\n<td>Electrons</td>\n<td>8</td>\n<td>Neutral cell with four valence electrons per Si</td>\n</tr>\n</tbody>\n</table>\n<p>Absolute total energy depends on the pseudopotential, basis and numerical choices. It is useful for comparing compatible calculations of the same system; it is not by itself a formation energy or cohesive energy. The reported Fermi level is not vacuum-aligned, and does not give the band gap by itself.</p>\n<p>Small differences across machines and builds are possible. If the difference is substantial, compare the echoed input, pseudopotential hash, basis defaults, mesh, k-grid, solver and convergence criteria before drawing a physical conclusion.</p>\n<h2 id=\"5-use-the-portable-launcher\">5. Use the portable launcher</h2>\n<p>Return to the course root. The supplied teaching helper performs the fresh-folder setup and validation for you:</p>\n"
+        },
+        {
+          "kind": "code",
+          "code": "bash scripts/run_calculation.sh scf 4",
+          "language": "bash"
+        },
+        {
+          "kind": "html",
+          "html": "<p>It prints a new <code>runs/scf-...</code> path and a JSON summary. Inspect the output directly as well. You can independently read the author's output without running SIESTA:</p>\n"
+        },
+        {
+          "kind": "code",
+          "code": "python3 scripts/read_results.py reference/silicon-diamond/scf_si/si_scf.out",
+          "language": "bash"
+        },
+        {
+          "kind": "html",
+          "html": "<p>The output reader checks final energy, an SCF-convergence message and normal completion. Geometry convergence and numerical convergence are separate checks.</p>\n<h2 id=\"check-your-understanding\">Check your understanding</h2>\n<p>If the SCF cycle reaches its maximum iteration count, adding more iterations may help, but the reason could be unstable mixing or an unsuitable setup. Examine the convergence history before changing several settings at once.</p>\n<p>Continue to <a href=\"/learn/siesta/convergence\">convergence tests</a>. Keep <code>si.fdf</code>, <code>Si.psml</code>, <code>si.out</code>, <code>si.err</code> and the executable banner together as your run record.</p>\n"
+        }
+      ],
+      "readingMinutes": 4
+    },
+    {
+      "slug": "convergence",
+      "title": "Test numerical convergence",
+      "category": "Validate",
+      "summary": "Compare mesh, k-point and lattice scans using the author's actual data.",
+      "headings": [
+        {
+          "title": "Mesh, k-points and basis are different checks",
+          "id": "mesh-k-points-and-basis-are-different-checks"
+        },
+        {
+          "title": "1. Compare the mesh-cutoff scan",
+          "id": "1-compare-the-mesh-cutoff-scan"
+        },
+        {
+          "title": "2. Compare the k-point scan",
+          "id": "2-compare-the-k-point-scan"
+        },
+        {
+          "title": "3. Find the lattice minimum",
+          "id": "3-find-the-lattice-minimum"
+        },
+        {
+          "title": "4. Re-run the scans",
+          "id": "4-re-run-the-scans"
+        },
+        {
+          "title": "5. Rebuild the supplied plots",
+          "id": "5-rebuild-the-supplied-plots"
+        },
+        {
+          "title": "What still needs testing",
+          "id": "what-still-needs-testing"
+        }
+      ],
+      "blocks": [
+        {
+          "kind": "html",
+          "html": "<p>Change one numerical setting at a time while keeping the physical system fixed. The archive contains three scan tables and their original figures: mesh cutoff, k-point sampling and the conventional lattice parameter.</p>\n<h2 id=\"mesh-k-points-and-basis-are-different-checks\">Mesh, k-points and basis are different checks</h2>\n<p><code>MeshCutoff</code> controls the real-space integration grid. The k-grid samples reciprocal space. The DZP basis describes the orbitals. Converging one does not converge the other two.</p>\n<p>The supplied mesh scan fixes the k-grid at 10×10×10 and the cubic lattice parameter at 5.44 Å. The supplied k-point scan uses 400 Ry. Both use <code>DM.Tolerance 1.0d-5</code>; the final SCF and relaxation inputs tighten this to <code>1.0d-7</code>.</p>\n<h2 id=\"1-compare-the-mesh-cutoff-scan\">1. Compare the mesh-cutoff scan</h2>\n<p>Use the highest sampled cutoff, 500 Ry, as the comparison reference. Define <code>ΔE = E(setting) − E(reference)</code>. The sign is retained; for a tolerance use its absolute value.</p>\n<table>\n<thead>\n<tr>\n<th>MeshCutoff (Ry)</th>\n<th>Energy (eV / two-atom cell)</th>\n<th>ΔE versus 500 Ry (meV / cell)</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>100</td>\n<td>-230.042930</td>\n<td>-0.342</td>\n</tr>\n<tr>\n<td>150</td>\n<td>-230.042466</td>\n<td>+0.122</td>\n</tr>\n<tr>\n<td>200</td>\n<td>-230.042593</td>\n<td>-0.005</td>\n</tr>\n<tr>\n<td>250</td>\n<td>-230.042593</td>\n<td>-0.005</td>\n</tr>\n<tr>\n<td>300</td>\n<td>-230.042571</td>\n<td>+0.017</td>\n</tr>\n<tr>\n<td>350</td>\n<td>-230.042571</td>\n<td>+0.017</td>\n</tr>\n<tr>\n<td>400</td>\n<td>-230.042616</td>\n<td>-0.028</td>\n</tr>\n<tr>\n<td>450</td>\n<td>-230.042588</td>\n<td>0.000</td>\n</tr>\n<tr>\n<td>500</td>\n<td>-230.042588</td>\n<td>0.000</td>\n</tr>\n</tbody>\n</table>\n<p><img src=\"/learning/downloads/files/reference/silicon-diamond/convergence/mesh-cutoff/Si_meshcutoff_convergence.png\" alt=\"Author-supplied silicon mesh-cutoff convergence figure\"></p>\n<p>The author selected 200 Ry. It differs from the 500 Ry value by 0.005 meV per cell in this table, and subsequent mesh settings fluctuate slightly. This is an energy check for this fixed geometry. It does not demonstrate force or stress convergence for an arbitrary system, and does not justify a universal 200 Ry recommendation.</p>\n<p>Real-space grid integration need not yield a strictly monotonic energy curve. Do not choose the most negative point automatically. For accurate relaxation, repeat convergence checks for forces and stress as well.</p>\n<h2 id=\"2-compare-the-k-point-scan\">2. Compare the k-point scan</h2>\n<p>Use 14×14×14 as the highest sampled reference. Two atoms per cell means a meV/cell difference is divided by two to get meV/atom.</p>\n<table>\n<thead>\n<tr>\n<th>k-grid</th>\n<th>Energy (eV / cell)</th>\n<th>ΔE (meV / cell)</th>\n<th>ΔE (meV / atom)</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>2×2×2</td>\n<td>-227.409044</td>\n<td>2634.338</td>\n<td>1317.169</td>\n</tr>\n<tr>\n<td>4×4×4</td>\n<td>-229.848165</td>\n<td>195.217</td>\n<td>97.6085</td>\n</tr>\n<tr>\n<td>6×6×6</td>\n<td>-230.018149</td>\n<td>25.233</td>\n<td>12.6165</td>\n</tr>\n<tr>\n<td>8×8×8</td>\n<td>-230.039232</td>\n<td>4.150</td>\n<td>2.075</td>\n</tr>\n<tr>\n<td>10×10×10</td>\n<td>-230.042616</td>\n<td>0.766</td>\n<td>0.383</td>\n</tr>\n<tr>\n<td>12×12×12</td>\n<td>-230.043250</td>\n<td>0.132</td>\n<td>0.066</td>\n</tr>\n<tr>\n<td>14×14×14</td>\n<td>-230.043382</td>\n<td>0.000</td>\n<td>0.000</td>\n</tr>\n</tbody>\n</table>\n<p><img src=\"/learning/downloads/files/reference/silicon-diamond/convergence/kpoints/Si_kpoint_convergence.png\" alt=\"Author-supplied silicon k-point convergence figure\"></p>\n<p>A 10×10×10 mesh passes an illustrative 1 meV/atom energy threshold against the largest sampled mesh. That threshold is a teaching choice, not a stated experimental error bar or proof that band edges, optical properties and stress are equally converged.</p>\n<h2 id=\"3-find-the-lattice-minimum\">3. Find the lattice minimum</h2>\n<p>The lattice scan fixes the 10×10×10 grid and 200 Ry cutoff. Each point is an SCF calculation at a different cell size. There is no cell relaxation within each point.</p>\n<table>\n<thead>\n<tr>\n<th>Cubic a (Å)</th>\n<th>LatticeConstant (Å)</th>\n<th>Energy (eV / cell)</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>5.36</td>\n<td>2.68</td>\n<td>-230.017451</td>\n</tr>\n<tr>\n<td>5.38</td>\n<td>2.69</td>\n<td>-230.028411</td>\n</tr>\n<tr>\n<td>5.40</td>\n<td>2.70</td>\n<td>-230.036189</td>\n</tr>\n<tr>\n<td>5.42</td>\n<td>2.71</td>\n<td>-230.040895</td>\n</tr>\n<tr>\n<td>5.44</td>\n<td>2.72</td>\n<td>-230.042593</td>\n</tr>\n<tr>\n<td>5.46</td>\n<td>2.73</td>\n<td>-230.041379</td>\n</tr>\n<tr>\n<td>5.48</td>\n<td>2.74</td>\n<td>-230.037436</td>\n</tr>\n<tr>\n<td>5.50</td>\n<td>2.75</td>\n<td>-230.030805</td>\n</tr>\n<tr>\n<td>5.52</td>\n<td>2.76</td>\n<td>-230.021541</td>\n</tr>\n</tbody>\n</table>\n<p><img src=\"/learning/downloads/files/reference/silicon-diamond/convergence/lattice/Si_lattice_optimization.png\" alt=\"Author-supplied silicon lattice optimisation figure\"></p>\n<p>The original plotting script fits the five points from 5.40 through 5.48 Å to <code>E(a) = A a² + B a + C</code>. Its minimum is <code>a₀ = −B / (2A)</code>. Re-evaluating that fit from the supplied table gives <code>5.44206294 Å</code>, or <code>LatticeConstant = 2.72103147 Å</code>. The final supplied input uses 2.72105 Å, a nearby rounded choice.</p>\n<p>This is a local quadratic interpolation, not a full equation-of-state analysis. The original plot extends the local polynomial over the entire shown range; avoid interpreting that extrapolation as additional calculated points.</p>\n<h2 id=\"4-re-run-the-scans\">4. Re-run the scans</h2>\n<p>From the course root:</p>\n"
+        },
+        {
+          "kind": "code",
+          "code": "python3 scripts/run_convergence.py mesh --np 4\npython3 scripts/run_convergence.py kpoints --np 4\npython3 scripts/run_convergence.py lattice --np 4",
+          "language": "bash"
+        },
+        {
+          "kind": "html",
+          "html": "<p>These helpers retain the original template settings, create a fresh directory for each scan and write <code>results.dat</code> after each completed point. They stop if MPI fails or the output lacks electronic convergence, normal completion or final energy.</p>\n<p>For a tighter study, copy a template, change its DM tolerance deliberately and label the new results accordingly. Do not replace the reference tables with newly generated values from a different setup without recording that change.</p>\n<h2 id=\"5-rebuild-the-supplied-plots\">5. Rebuild the supplied plots</h2>\n<p>If NumPy and Matplotlib are not available, create a small analysis environment:</p>\n"
+        },
+        {
+          "kind": "code",
+          "code": "python3 -m venv .venv\nsource .venv/bin/activate\npython -m pip install numpy matplotlib",
+          "language": "bash"
+        },
+        {
+          "kind": "html",
+          "html": "<p>Then, for example:</p>\n"
+        },
+        {
+          "kind": "code",
+          "code": "cd reference/silicon-diamond/convergence/lattice\npython3 plot_lattice.py",
+          "language": "bash"
+        },
+        {
+          "kind": "html",
+          "html": "<p>Each original plotting script reads its adjacent <code>.dat</code> file and writes a PNG. In a headless terminal use <code>MPLBACKEND=Agg python3 plot_lattice.py</code>. These plotting scripts analyse existing data; they do not run SIESTA.</p>\n<h2 id=\"what-still-needs-testing\">What still needs testing</h2>\n<p>There is no supplied SZ/DZP/TZP comparison or basis-confinement scan. For a research-quality accuracy assessment, converge the observable you will report: lattice parameters, forces, stress, band edges or energy differences. A small absolute energy change alone is not a complete uncertainty budget.</p>\n<p>Continue to <a href=\"/learn/siesta/relaxation\">relaxing the structure</a>.</p>\n"
+        }
+      ],
+      "readingMinutes": 6
+    },
+    {
+      "slug": "relaxation",
+      "title": "Relax the silicon structure",
+      "category": "Calculate",
+      "summary": "Understand atomic and cell relaxation, force tolerances and stress checks.",
+      "headings": [
+        {
+          "title": "1. Add the relaxation controls",
+          "id": "1-add-the-relaxation-controls"
+        },
+        {
+          "title": "2. Launch in a new folder",
+          "id": "2-launch-in-a-new-folder"
+        },
+        {
+          "title": "3. Inspect forces, stress and final structure",
+          "id": "3-inspect-forces-stress-and-final-structure"
+        },
+        {
+          "title": "4. Why the cell did not visibly move",
+          "id": "4-why-the-cell-did-not-visibly-move"
+        },
+        {
+          "title": "5. Reuse the final geometry",
+          "id": "5-reuse-the-final-geometry"
+        },
+        {
+          "title": "Read further",
+          "id": "read-further"
+        }
+      ],
+      "blocks": [
+        {
+          "kind": "html",
+          "html": "<p>Use converged electronic calculations to compute forces and stress, then allow the optimisation algorithm to change atomic positions and the cell. The supplied example uses conjugate gradients (CG) with variable-cell relaxation.</p>\n<h2 id=\"1-add-the-relaxation-controls\">1. Add the relaxation controls</h2>\n<p>The complete <a href=\"/learning/downloads/files/examples/silicon-diamond/relaxation/si_relax.fdf\">si_relax.fdf</a> contains the SCF model from the earlier lesson plus these controls:</p>\n"
+        },
+        {
+          "kind": "code",
+          "code": "MD.TypeOfRun        CG\nMD.Steps            200\nMD.VariableCell     .true.\nMD.MaxForceTol      0.01 eV/Ang\nMD.MaxStressTol     0.1 GPa\nMD.TargetPressure   0.0 GPa",
+          "language": "text"
+        },
+        {
+          "kind": "html",
+          "html": "<table>\n<thead>\n<tr>\n<th>Entry</th>\n<th>What it controls</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>MD.TypeOfRun CG</td>\n<td>Conjugate-gradient geometry minimisation</td>\n</tr>\n<tr>\n<td>MD.Steps 200</td>\n<td>Maximum optimisation steps, not a requirement to take 200 steps</td>\n</tr>\n<tr>\n<td>MD.VariableCell true</td>\n<td>Optimise cell vectors as well as atomic positions</td>\n</tr>\n<tr>\n<td>MD.MaxForceTol</td>\n<td>Required force threshold for the geometry</td>\n</tr>\n<tr>\n<td>MD.MaxStressTol</td>\n<td>Required stress tolerance relative to the target</td>\n</tr>\n<tr>\n<td>MD.TargetPressure</td>\n<td>Desired hydrostatic pressure</td>\n</tr>\n</tbody>\n</table>\n<p><code>MD.Steps</code> is the documented SIESTA 5.4 option; <code>MD.NumCGsteps</code> remains as a legacy option. For a fixed-cell atomic relaxation, set <code>MD.VariableCell .false.</code> in a separate input. Perfect bulk silicon has symmetry-constrained zero or near-zero forces, so fixed-cell relaxation alone cannot determine its equilibrium lattice parameter.</p>\n<h2 id=\"2-launch-in-a-new-folder\">2. Launch in a new folder</h2>\n<p>From the course root:</p>\n"
+        },
+        {
+          "kind": "code",
+          "code": "bash scripts/run_calculation.sh relaxation 4",
+          "language": "bash"
+        },
+        {
+          "kind": "html",
+          "html": "<p>The helper copies the input and matching pseudopotential into a fresh <code>runs/relaxation-...</code> directory. Its SCF-checking summary is useful, but it does not replace the geometry checks below.</p>\n<p>The reference relaxation uses the same 200 Ry grid, 10×10×10 k-mesh and <code>DM.Tolerance 1.0d-7</code> as the final SCF. It reports two electronic iterations. That shorter cycle can depend on the starting electronic state; it is not evidence that every fresh relaxation will converge in two iterations.</p>\n<h2 id=\"3-inspect-forces-stress-and-final-structure\">3. Inspect forces, stress and final structure</h2>\n<p>In your run directory:</p>\n"
+        },
+        {
+          "kind": "code",
+          "code": "grep -E 'SCF cycle converged|cgvc:|Job completed' si.out\ngrep -A 10 'Atomic forces' si.out | tail -12\ngrep 'Stress tensor Voigt' si.out | tail -1\ngrep -A 3 'Relaxed atomic coordinates' si.out | tail -4\ngrep -A 4 'outcell: Unit cell vectors' si.out | tail -5",
+          "language": "bash"
+        },
+        {
+          "kind": "html",
+          "html": "<p>The full <a href=\"/learning/downloads/files/reference/silicon-diamond/relax_si/si_relax.out\">reference relaxation output</a> reports:</p>\n<table>\n<thead>\n<tr>\n<th>Quantity</th>\n<th>Reference</th>\n<th>Check</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>Maximum force</td>\n<td>0.000011 eV/Å</td>\n<td>Below 0.01 eV/Å</td>\n</tr>\n<tr>\n<td>Pressure</td>\n<td>-0.26020609 kbar</td>\n<td>Magnitude about 0.0260 GPa</td>\n</tr>\n<tr>\n<td>Diagonal stress components</td>\n<td>About 0.26 kbar</td>\n<td>About 0.026 GPa, below the 0.1 GPa target tolerance</td>\n</tr>\n<tr>\n<td>Final energy</td>\n<td>-230.042602 eV/cell</td>\n<td>Same printed value as the supplied SCF</td>\n</tr>\n<tr>\n<td>Final volume</td>\n<td>40.293924 Å³</td>\n<td>Primitive two-atom cell</td>\n</tr>\n</tbody>\n</table>\n<p>Remember <code>1 kbar = 0.1 GPa</code>. Check the complete stress tensor, including shear components, rather than relying on hydrostatic pressure alone. A normal <code>Job completed</code> message can occur when the step limit is reached; compare the final diagnostics to the requested tolerances.</p>\n<h2 id=\"4-why-the-cell-did-not-visibly-move\">4. Why the cell did not visibly move</h2>\n<p>The starting cubic parameter is 5.44210 Å, already close to the fitted scan minimum of 5.44206294 Å. The reported forces and stress are below the chosen thresholds. The final vectors and fractional coordinates are unchanged at the printed precision:</p>\n"
+        },
+        {
+          "kind": "code",
+          "code": "Primitive cell vectors (Å):\n0.000000  2.721050  2.721050\n2.721050  0.000000  2.721050\n2.721050  2.721050  0.000000\n\nFractional coordinates:\n0.00000000  0.00000000  0.00000000  Si\n0.25000000  0.25000000  0.25000000  Si",
+          "language": "text"
+        },
+        {
+          "kind": "html",
+          "html": "<p>This is a near-equilibrium convergence example. It does not demonstrate a large structural change or many geometry steps.</p>\n<p>For a follow-up exercise, copy the input into a new directory and start at cubic <code>a = 5.50 Å</code>, which means <code>LatticeConstant 2.75 Ang</code> for these vectors. Run a fresh variable-cell relaxation and compare the final cell. That altered-start calculation has not been supplied or run here; label its results as your own new exercise.</p>\n<h2 id=\"5-reuse-the-final-geometry\">5. Reuse the final geometry</h2>\n<p>SIESTA can write geometry/restart files during a calculation. Inspect the files your build actually produced. If an output geometry file is absent, the final <code>outcell</code> and <code>outcoor</code> blocks provide the reported geometry.</p>\n<p>When transferring cell vectors already expressed in Å into an FDF block, use <code>LatticeConstant 1.0 Ang</code> with those physical vectors. Alternatively, keep the dimensionless primitive vectors and their scaling constant. Mixing both conventions would rescale the cell twice.</p>\n<h2 id=\"read-further\">Read further</h2>\n<p><a href=\"https://docs.siesta-project.org/projects/siesta/en/5.4/tutorials/basic/structure-optimization/index.html\">Official structural-optimisation tutorial</a> and <a href=\"https://docs.siesta-project.org/projects/siesta/en/5.4/reference/siesta.html\">SIESTA 5.4 parameter reference</a>.</p>\n<p>Continue to <a href=\"/learn/siesta/troubleshooting\">troubleshooting and reproducibility</a>.</p>\n"
+        }
+      ],
+      "readingMinutes": 4
+    },
+    {
+      "slug": "troubleshooting",
+      "title": "Troubleshoot and reproduce",
+      "category": "Reference",
+      "summary": "Diagnose common failures and keep a complete calculation record.",
+      "headings": [
+        {
+          "title": "Installation and launch checks",
+          "id": "installation-and-launch-checks"
+        },
+        {
+          "title": "Missing or incorrect pseudopotential",
+          "id": "missing-or-incorrect-pseudopotential"
+        },
+        {
+          "title": "SCF does not converge",
+          "id": "scf-does-not-converge"
+        },
+        {
+          "title": "The relaxation finishes but the structure is wrong",
+          "id": "the-relaxation-finishes-but-the-structure-is-wrong"
+        },
+        {
+          "title": "Restart deliberately",
+          "id": "restart-deliberately"
+        },
+        {
+          "title": "Reproducibility checklist",
+          "id": "reproducibility-checklist"
+        },
+        {
+          "title": "What is and is not established here",
+          "id": "what-is-and-is-not-established-here"
+        }
+      ],
+      "blocks": [
+        {
+          "kind": "html",
+          "html": "<p>Start with the last successful stage: build, launch, pseudopotential reading, electronic convergence, or geometry convergence. Change one cause at a time and keep the failed output for comparison.</p>\n<h2 id=\"installation-and-launch-checks\">Installation and launch checks</h2>\n<table>\n<thead>\n<tr>\n<th>Symptom</th>\n<th>Inspect first</th>\n<th>Next action</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>siesta: command not found</td>\n<td><code>command -v siesta</code> and PATH</td>\n<td>Activate the installed bin directory</td>\n</tr>\n<tr>\n<td>Shared library not found</td>\n<td><code>ldd</code> output</td>\n<td>Resolve the missing library in the intended toolchain</td>\n</tr>\n<tr>\n<td>MPI symbols / library conflicts</td>\n<td>MPI wrappers and CMakeCache</td>\n<td>Reconfigure in a dedicated build folder with one MPI stack</td>\n</tr>\n<tr>\n<td>CMake cannot find a dependency</td>\n<td>Configure log and pkg-config metadata</td>\n<td>Check package installation and compatible paths</td>\n</tr>\n<tr>\n<td>Process count rejected</td>\n<td>Available cores / scheduler allocation</td>\n<td>Reduce MPI count to fit the resources</td>\n</tr>\n<tr>\n<td>Run ends without Job completed</td>\n<td><code>si.err</code> and final output lines</td>\n<td>Diagnose the actual failure before accepting an energy</td>\n</tr>\n</tbody>\n</table>\n<p>The installation guide uses <code>pipefail</code> with <code>tee</code> so build failures remain failures. Keep configure, build and test logs; the absence of the word &quot;error&quot; in a search is not enough to certify a successful build.</p>\n<h2 id=\"missing-or-incorrect-pseudopotential\">Missing or incorrect pseudopotential</h2>\n<p>The species label is <code>Si</code>, so this course places <code>Si.psml</code> beside the input. Verify the file exists and its hash matches the reference.</p>\n"
+        },
+        {
+          "kind": "code",
+          "code": "ls -l Si.psml\nsha256sum Si.psml",
+          "language": "bash"
+        },
+        {
+          "kind": "html",
+          "html": "<p>A file with the correct name but a different functional, valence configuration or generation choice is a different scientific model. Do not compare its absolute energy directly against the reference without recording the change.</p>\n<h2 id=\"scf-does-not-converge\">SCF does not converge</h2>\n<p>Inspect the iteration history, electronic occupations, initial geometry and mixed quantity. Lowering the mixing weight or allowing more iterations may help, but do not change the functional, basis, mesh and k-grid simultaneously just to make the message disappear.</p>\n<p>SIESTA 5.4 normally mixes the Hamiltonian, even though several historical options have <code>DM.</code> names. Read the reported convergence criterion and mixed quantity in the output.</p>\n<h2 id=\"the-relaxation-finishes-but-the-structure-is-wrong\">The relaxation finishes but the structure is wrong</h2>\n<p>Check the cell convention first. In this example, <code>LatticeConstant</code> is half the conventional cubic parameter. A scale-factor mistake can change the cell dramatically while the input remains syntactically valid.</p>\n<p>Then inspect:</p>\n<ul>\n<li>Final forces against the specified force tolerance.</li>\n<li>All stress components against the target stress and tolerance.</li>\n<li>Whether the maximum number of geometry steps was reached.</li>\n<li>Whether cell relaxation was actually enabled.</li>\n<li>Whether the intended cell/atomic constraints were used.</li>\n</ul>\n<p>The author's starting geometry is already near equilibrium. An unchanged final structure is consistent with the small reported forces and stress.</p>\n<h2 id=\"restart-deliberately\">Restart deliberately</h2>\n<p><code>DM.UseSaveDM</code> can allow reading a saved density matrix. The teaching launchers use a fresh folder, making accidental reuse less likely. For an intentional restart, use compatible geometry/species/settings and keep the earlier input and output. Record that a restart was used.</p>\n<p>Restart files are practical aids, not part of the small public reference package. Retain large files locally only when needed for continuation or analysis.</p>\n<h2 id=\"reproducibility-checklist\">Reproducibility checklist</h2>\n<p>For each new run, save:</p>\n<ol>\n<li>The exact <code>.fdf</code> input and included files.</li>\n<li>The pseudopotential, upstream source and SHA-256 hash.</li>\n<li>SIESTA banner, source commit if known, compiler and MPI versions.</li>\n<li>Basis details, grid, k-mesh, electronic tolerance and spin/charge settings.</li>\n<li>Launch command, process count and any restart information.</li>\n<li>Complete output, error log and final structure.</li>\n<li>Analysis script and units used in each reported table.</li>\n</ol>\n<h2 id=\"what-is-and-is-not-established-here\">What is and is not established here</h2>\n<p>The completed outputs and scan tables establish the reported example results. They do not supply basis-size convergence, a force/stress convergence study, raw per-point scan outputs, or proof that the reduced teaching build is identical to the reference executable. These gaps are recorded, not filled with guessed results.</p>\n<p>If requesting help, provide the input, the first part of the output showing the build identity, the last output lines and the actual error. Share enough context to diagnose the stage that failed.</p>\n<p>Continue to <a href=\"/learn/siesta/doxygen\">the Doxygen exercise</a>. Full provenance: <a href=\"/learning/downloads/files/SOURCE_AUDIT.md\">source audit</a>.</p>\n"
+        }
+      ],
+      "readingMinutes": 4
+    },
+    {
+      "slug": "doxygen",
+      "title": "Document the scripts with Doxygen",
+      "category": "Document",
+      "summary": "Install Doxygen, read the supplied configuration and document your first Python utility.",
+      "headings": [
+        {
+          "title": "1. Install and verify",
+          "id": "1-install-and-verify"
+        },
+        {
+          "title": "2. Inspect the documented Python function",
+          "id": "2-inspect-the-documented-python-function"
+        },
+        {
+          "title": "3. Use the supplied configuration",
+          "id": "3-use-the-supplied-configuration"
+        },
+        {
+          "title": "4. Open and inspect the result",
+          "id": "4-open-and-inspect-the-result"
+        },
+        {
+          "title": "5. Understand the shell-script limit",
+          "id": "5-understand-the-shell-script-limit"
+        },
+        {
+          "title": "6. Connect it to the learning website",
+          "id": "6-connect-it-to-the-learning-website"
+        }
+      ],
+      "blocks": [
+        {
+          "kind": "html",
+          "html": "<p>Doxygen can turn documented Python, C++, Fortran and Markdown into navigable HTML reference pages. This first exercise documents the teaching output reader and convergence launcher. It complements the learning pages by explaining how the utilities work.</p>\n<h2 id=\"1-install-and-verify\">1. Install and verify</h2>\n<p>On your Ubuntu computer:</p>\n"
+        },
+        {
+          "kind": "code",
+          "code": "sudo apt update\nsudo apt install -y doxygen graphviz\ndoxygen --version\ndot -V",
+          "language": "bash"
+        },
+        {
+          "kind": "html",
+          "html": "<p>Graphviz provides <code>dot</code> for supported diagrams. It does not create a scientifically meaningful workflow graph automatically from arbitrary shell commands.</p>\n<h2 id=\"2-inspect-the-documented-python-function\">2. Inspect the documented Python function</h2>\n<p>Open <code>scripts/read_results.py</code>. Its comments use the Doxygen-aware Python docstring form:</p>\n"
+        },
+        {
+          "kind": "code",
+          "code": "def read_result(path):\n    \"\"\"! @brief Read final reported energy and diagnostic quantities.\n    @param path Path to a SIESTA output file.\n    @return Dictionary of values and explicit completion flags.\n    @exception ValueError Raised for an incomplete or electronically unconverged run.\n    \"\"\"",
+          "language": "python"
+        },
+        {
+          "kind": "html",
+          "html": "<p>The code does not change when explanatory comments are added. Describe the function's actual behaviour, inputs, output units and failure conditions. Avoid documenting an assumed capability the script does not implement.</p>\n<h2 id=\"3-use-the-supplied-configuration\">3. Use the supplied configuration</h2>\n<p>From the extracted course root:</p>\n"
+        },
+        {
+          "kind": "code",
+          "code": "doxygen doxygen/Doxyfile",
+          "language": "bash"
+        },
+        {
+          "kind": "html",
+          "html": "<p>The prepared configuration points to the Python scripts, a code overview and the shell-usage page. It writes HTML to <code>doxygen-output/html/</code> and does not generate LaTeX output.</p>\n<table>\n<thead>\n<tr>\n<th>Doxyfile setting</th>\n<th>Purpose</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>INPUT</td>\n<td>Files to document</td>\n</tr>\n<tr>\n<td>USE_MDFILE_AS_MAINPAGE</td>\n<td>Use the code overview as the landing page</td>\n</tr>\n<tr>\n<td>SOURCE_BROWSER</td>\n<td>Link to source listings</td>\n</tr>\n<tr>\n<td>GENERATE_HTML</td>\n<td>Produce the HTML reference</td>\n</tr>\n<tr>\n<td>OUTPUT_DIRECTORY</td>\n<td>Keep generated files in a separate folder</td>\n</tr>\n<tr>\n<td>EXAMPLE_PATH</td>\n<td>Find the shell launcher used as an example</td>\n</tr>\n<tr>\n<td>HAVE_DOT</td>\n<td>Allow supported Graphviz diagrams</td>\n</tr>\n</tbody>\n</table>\n<p>To explore a fresh default configuration in a separate folder, <code>doxygen -g Doxyfile</code> generates one. The supplied short configuration is easier to review for this first exercise.</p>\n<h2 id=\"4-open-and-inspect-the-result\">4. Open and inspect the result</h2>\n"
+        },
+        {
+          "kind": "code",
+          "code": "xdg-open doxygen-output/html/index.html",
+          "language": "bash"
+        },
+        {
+          "kind": "html",
+          "html": "<p>You should find the main page, file listings, Python function descriptions and a shell-launcher usage page. Inspect warnings: broken links, missing files or comments attached to the wrong function need correction before publication.</p>\n<h2 id=\"5-understand-the-shell-script-limit\">5. Understand the shell-script limit</h2>\n<p>Doxygen does not include a native Bash parser among its supported source-language parsers. The course therefore documents the shell launcher using <code>doxygen/shell-usage.dox</code>, with a usage explanation and included source listing. That provides useful readable reference without claiming automatic Bash call graphs.</p>\n<p>Python function documentation can be generated directly. More advanced Python analysis and shell-specific documentation tooling can be evaluated later if the script collection grows.</p>\n<h2 id=\"6-connect-it-to-the-learning-website\">6. Connect it to the learning website</h2>\n<p>Keep Markdown tutorials and original source code as the editable material. Regenerate Doxygen HTML when documented code changes, then publish the generated reference together with the course or under a dedicated code-reference path.</p>\n<p>The current draft includes the configuration and a guided exercise. Doxygen HTML has not been generated in this environment, where the Doxygen executable is unavailable. Once you run the commands above and provide the generated output or warnings, we can inspect it and connect the verified HTML reference.</p>\n<p>Official reading: <a href=\"https://www.doxygen.nl/manual/starting.html\">Doxygen getting started</a>, <a href=\"https://www.doxygen.nl/manual/docblocks.html\">Python documentation comments</a>, <a href=\"https://www.doxygen.nl/manual/config.html\">configuration reference</a>, and <a href=\"https://www.doxygen.nl/manual/markdown.html\">Markdown support</a>.</p>\n"
+        }
+      ],
+      "readingMinutes": 3
+    }
+  ]
+}

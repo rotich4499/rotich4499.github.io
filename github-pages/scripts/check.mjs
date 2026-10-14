@@ -1,0 +1,24 @@
+import { execFileSync } from "node:child_process";
+import fs from "node:fs/promises";
+import vm from "node:vm";
+import assert from "node:assert/strict";
+
+execFileSync("python3", ["scripts/check_static.py"], { stdio: "inherit" });
+let click;
+let clipboard;
+let reset;
+const announcement = { textContent: "" };
+const code = { textContent: "mpirun -np 4 siesta < si_scf.fdf > si_scf.out\n" };
+const block = { querySelector: selector => selector === "pre code" ? code : announcement };
+const button = { textContent: "Copy", closest: () => block };
+const document = { addEventListener: (name, handler) => { if (name === "click") click = handler; } };
+const navigator = { clipboard: { writeText: async text => { clipboard = text; } } };
+const window = { setTimeout: handler => { reset = handler; } };
+vm.runInNewContext(await fs.readFile("scripts/browser.js", "utf8"), { document, navigator, window });
+await click({ target: { closest: () => button } });
+assert.equal(clipboard, code.textContent);
+assert.equal(button.textContent, "Copied");
+assert.equal(announcement.textContent, "Code copied to clipboard");
+reset();
+assert.equal(button.textContent, "Copy");
+console.log(JSON.stringify({ codeCopy: true }));

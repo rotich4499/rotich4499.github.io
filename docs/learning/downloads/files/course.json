@@ -1,0 +1,16 @@
+{
+  "title": "Learn SIESTA with silicon",
+  "author": "Charles Kipchumba Rotich",
+  "updated": "14 October 2026",
+  "repository": "https://github.com/rotich4499/computational-materials-learning",
+  "lessons": [
+    {"slug":"start-here","title":"Start here","category":"Orientation","summary":"The workflow, files and scientific questions behind your first calculation."},
+    {"slug":"installation","title":"Install SIESTA","category":"Setup","summary":"Compilers, MPI, numerical libraries, configuration and build checkpoints."},
+    {"slug":"silicon-input","title":"Understand the silicon input","category":"Foundations","summary":"Explain the primitive cell, pseudopotential, basis and every important control."},
+    {"slug":"first-scf","title":"Run your first SCF calculation","category":"Calculate","summary":"Launch a fresh run, check convergence and read the supplied reference result."},
+    {"slug":"convergence","title":"Test numerical convergence","category":"Validate","summary":"Compare mesh, k-point and lattice scans using the author's actual data."},
+    {"slug":"relaxation","title":"Relax the silicon structure","category":"Calculate","summary":"Understand atomic and cell relaxation, force tolerances and stress checks."},
+    {"slug":"troubleshooting","title":"Troubleshoot and reproduce","category":"Reference","summary":"Diagnose common failures and keep a complete calculation record."},
+    {"slug":"doxygen","title":"Document the scripts with Doxygen","category":"Document","summary":"Install Doxygen, read the supplied configuration and document your first Python utility."}
+  ]
+}

@@ -1,0 +1,255 @@
+{
+  "updated": "14 October 2026",
+  "files": [
+    {
+      "path": ".gitignore",
+      "bytes": 72,
+      "sha256": "1553db46dcfa38f87b75dd307ee6c1d75072046bd0fb9e5374619a2f7bc0a53c"
+    },
+    {
+      "path": "README.md",
+      "bytes": 2531,
+      "sha256": "f43bfc47fafa707223b9c6eb6de0bd2d267744d35c2a9204e7a369074b2917b9"
+    },
+    {
+      "path": "SOURCE_AUDIT.md",
+      "bytes": 3651,
+      "sha256": "dd5d4bf05433fd1dd135a9b8032ee7137a12a8b2936a1aed9c3ec0ab553ef8ea"
+    },
+    {
+      "path": "course.json",
+      "bytes": 1608,
+      "sha256": "09f10dc106ad27962df1b8d850cdd588e108b41120c3ffb478e1960dc51ed99d"
+    },
+    {
+      "path": "docs/convergence.md",
+      "bytes": 5796,
+      "sha256": "98e351aefa11d3808a8ffb7a6e1b5b739c3f7ffc8d3647c0967437537e92c3ff"
+    },
+    {
+      "path": "docs/doxygen.md",
+      "bytes": 3894,
+      "sha256": "92c33ba175ad0e94f7412d50fc90bd2b1d403c1ad5cc1784a92e9773d182781f"
+    },
+    {
+      "path": "docs/first-scf.md",
+      "bytes": 4110,
+      "sha256": "0c9c83957dad78f5c2ed7efed118069165b1fd68e28b0239cd2f77c6a4a9c7ca"
+    },
+    {
+      "path": "docs/installation.md",
+      "bytes": 7334,
+      "sha256": "45ca5a1aa45a2a0151f03926ad4bb0273902f7b032c4efb7c4fbb981259e75aa"
+    },
+    {
+      "path": "docs/relaxation.md",
+      "bytes": 5003,
+      "sha256": "9f77b5884b083334f953cdc0cfcd6f755f6386db709d4b0fdfa8c63510a5d3b0"
+    },
+    {
+      "path": "docs/silicon-input.md",
+      "bytes": 5283,
+      "sha256": "2abd9b915e7afd50d9c74f934c03e58d3ee36d704cf36127dd567cc76788b226"
+    },
+    {
+      "path": "docs/start-here.md",
+      "bytes": 3788,
+      "sha256": "8600b1057b94a6a59a99b0da43bd511234e7b4013ff4c37c5d11cbf4bbae0b1f"
+    },
+    {
+      "path": "docs/troubleshooting.md",
+      "bytes": 4461,
+      "sha256": "91694bd2855885f885fe784f87c8632a178eb227662ccdb24a4a5a070231acce"
+    },
+    {
+      "path": "doxygen/Doxyfile",
+      "bytes": 784,
+      "sha256": "4aeb439c0e3b4930dde93c78023782f778f0cc3be9e36db637942a34a28ff684"
+    },
+    {
+      "path": "doxygen/index.md",
+      "bytes": 925,
+      "sha256": "273bbbe970398f313e650551f05d63c0ca477170ee55fea4e0251c2af5adda45"
+    },
+    {
+      "path": "doxygen/shell-usage.dox",
+      "bytes": 658,
+      "sha256": "98ee5dc92f93fdf2e1e5f624f56976b5c7e313c0c135aee115180bbdf18952f4"
+    },
+    {
+      "path": "examples/silicon-diamond/convergence/si_kconv_template.fdf",
+      "bytes": 1043,
+      "sha256": "cf59db706608c71fd28189384c50505a55db42c3902b55ab3e2e779cdfcb86a4"
+    },
+    {
+      "path": "examples/silicon-diamond/convergence/si_lattice_template.fdf",
+      "bytes": 967,
+      "sha256": "fca8db1cb9f4c29c410e71bc4a6942de8080155d5dbdffb8cac38133cfccece4"
+    },
+    {
+      "path": "examples/silicon-diamond/convergence/si_mesh_template.fdf",
+      "bytes": 1048,
+      "sha256": "72ca92a92246c4fc10ba0aeea2ff13d1b1e45b8ed19cc26826f42529f9f668fd"
+    },
+    {
+      "path": "examples/silicon-diamond/pseudopotentials/Si.psml",
+      "bytes": 86722,
+      "sha256": "fa0e9fa6ca7a97ab07879cd1bc8d858ebb32a90f262535b578d14d4d515bdc95"
+    },
+    {
+      "path": "examples/silicon-diamond/relaxation/si_relax.fdf",
+      "bytes": 1166,
+      "sha256": "374368684c2bf49c2952f838e070d194189580c114215e4953dba82ceaf95084"
+    },
+    {
+      "path": "examples/silicon-diamond/scf/si_scf.fdf",
+      "bytes": 967,
+      "sha256": "7603230da40c0ef70a3e3661aee01ab17511c0bba32c659d7a46337f576192af"
+    },
+    {
+      "path": "reference/silicon-diamond/convergence/kpoints/Si.psml",
+      "bytes": 86722,
+      "sha256": "fa0e9fa6ca7a97ab07879cd1bc8d858ebb32a90f262535b578d14d4d515bdc95"
+    },
+    {
+      "path": "reference/silicon-diamond/convergence/kpoints/Si_kpoint_convergence.png",
+      "bytes": 139618,
+      "sha256": "bd47de048717801ae4b5168cc2eaf74e58c3771e7f917c45f52f1e7f2549b8bf"
+    },
+    {
+      "path": "reference/silicon-diamond/convergence/kpoints/kpoint_convergence.dat",
+      "bytes": 233,
+      "sha256": "60c322bfe6575502701a269806bd96c38f1c96d67cd8eee9161fb01e924fe640"
+    },
+    {
+      "path": "reference/silicon-diamond/convergence/kpoints/plot_kpoints.py",
+      "bytes": 984,
+      "sha256": "8b3ff212f26cc76d0da5502f6a99661f0c67a29ce162395c989522102fb8c8f7"
+    },
+    {
+      "path": "reference/silicon-diamond/convergence/kpoints/run_kconv.sh",
+      "bytes": 996,
+      "sha256": "25828bb3e886215f5adf126f0d6b5ca7619d08ec65d0f065647af6a107179751"
+    },
+    {
+      "path": "reference/silicon-diamond/convergence/kpoints/si_kconv_template.fdf",
+      "bytes": 1043,
+      "sha256": "cf59db706608c71fd28189384c50505a55db42c3902b55ab3e2e779cdfcb86a4"
+    },
+    {
+      "path": "reference/silicon-diamond/convergence/lattice/Si.psml",
+      "bytes": 86722,
+      "sha256": "fa0e9fa6ca7a97ab07879cd1bc8d858ebb32a90f262535b578d14d4d515bdc95"
+    },
+    {
+      "path": "reference/silicon-diamond/convergence/lattice/Si_lattice_optimization.png",
+      "bytes": 201654,
+      "sha256": "f0e33186c86e3a2c3b59111e7392108a6eda474dcd0849c12d1624e9adef3cd6"
+    },
+    {
+      "path": "reference/silicon-diamond/convergence/lattice/lattice_scan.dat",
+      "bytes": 608,
+      "sha256": "8087dd49bc30c3d75c8dfe0b2e96f74c23d63fc14dddc58e5c081ab9650f8f16"
+    },
+    {
+      "path": "reference/silicon-diamond/convergence/lattice/plot_lattice.py",
+      "bytes": 1713,
+      "sha256": "b06840812669f7ec5d98334d3fd339f678f2f81959ca02301d57a7aace4e4daf"
+    },
+    {
+      "path": "reference/silicon-diamond/convergence/lattice/run_lattice_scan.sh",
+      "bytes": 1541,
+      "sha256": "aec96da287654bce53a2f1d0acb8547d9eb1b8ab64adf0809e39cb4ee350b6be"
+    },
+    {
+      "path": "reference/silicon-diamond/convergence/lattice/si_lattice_template.fdf",
+      "bytes": 967,
+      "sha256": "fca8db1cb9f4c29c410e71bc4a6942de8080155d5dbdffb8cac38133cfccece4"
+    },
+    {
+      "path": "reference/silicon-diamond/convergence/mesh-cutoff/Si.psml",
+      "bytes": 86722,
+      "sha256": "fa0e9fa6ca7a97ab07879cd1bc8d858ebb32a90f262535b578d14d4d515bdc95"
+    },
+    {
+      "path": "reference/silicon-diamond/convergence/mesh-cutoff/Si_meshcutoff_convergence.png",
+      "bytes": 169728,
+      "sha256": "d5838640dd001531ec939b85fcb4ab29428939af8eaee7b6fe136d49d17e0a13"
+    },
+    {
+      "path": "reference/silicon-diamond/convergence/mesh-cutoff/mesh_convergence.dat",
+      "bytes": 384,
+      "sha256": "36e0ccbb0e9f40d71b15d1e702fbc69ab3472ccb73eafd05740d07037e7aa9a1"
+    },
+    {
+      "path": "reference/silicon-diamond/convergence/mesh-cutoff/plot_mesh.py",
+      "bytes": 740,
+      "sha256": "b5cf4805f70479d91b223686b14b4118ed38dcb7334fa4cc728203e9292fa0c5"
+    },
+    {
+      "path": "reference/silicon-diamond/convergence/mesh-cutoff/run_meshconv.sh",
+      "bytes": 1314,
+      "sha256": "6650c1d2389cf9d34ce0d327b6f9689d125de17c98ab95c040a0b2e716f6fd9f"
+    },
+    {
+      "path": "reference/silicon-diamond/convergence/mesh-cutoff/si_mesh_template.fdf",
+      "bytes": 1048,
+      "sha256": "72ca92a92246c4fc10ba0aeea2ff13d1b1e45b8ed19cc26826f42529f9f668fd"
+    },
+    {
+      "path": "reference/silicon-diamond/note.md",
+      "bytes": 189,
+      "sha256": "f58164b4d48f745b66d92f0cd34510c9814b7a89daf7cc7fe011e565094ed49b"
+    },
+    {
+      "path": "reference/silicon-diamond/relax_si/Si.psml",
+      "bytes": 86722,
+      "sha256": "fa0e9fa6ca7a97ab07879cd1bc8d858ebb32a90f262535b578d14d4d515bdc95"
+    },
+    {
+      "path": "reference/silicon-diamond/relax_si/si_relax.fdf",
+      "bytes": 1166,
+      "sha256": "374368684c2bf49c2952f838e070d194189580c114215e4953dba82ceaf95084"
+    },
+    {
+      "path": "reference/silicon-diamond/relax_si/si_relax.out",
+      "bytes": 23797,
+      "sha256": "43d7636ac4babff34d0580e55e1471b077013dc3a82a885d1d99bb5d713ae6d7"
+    },
+    {
+      "path": "reference/silicon-diamond/scf_si/Si.psml",
+      "bytes": 86722,
+      "sha256": "fa0e9fa6ca7a97ab07879cd1bc8d858ebb32a90f262535b578d14d4d515bdc95"
+    },
+    {
+      "path": "reference/silicon-diamond/scf_si/si_scf.fdf",
+      "bytes": 967,
+      "sha256": "7603230da40c0ef70a3e3661aee01ab17511c0bba32c659d7a46337f576192af"
+    },
+    {
+      "path": "reference/silicon-diamond/scf_si/si_scf.out",
+      "bytes": 23006,
+      "sha256": "51c6c4788f34195cafeaf202621f1e047c833509a1ef2379e8cc5613c5ffdba7"
+    },
+    {
+      "path": "scripts/read_results.py",
+      "bytes": 2759,
+      "sha256": "9ffcb5d07f4494ea03ba61ea5d8081684ec360538eec953eb803d3a66555b7ac"
+    },
+    {
+      "path": "scripts/run_calculation.sh",
+      "bytes": 1290,
+      "sha256": "52dcc0cdf880da7683796b49c606121f17a826aea23d588e1ec8fbb7c32fc315"
+    },
+    {
+      "path": "scripts/run_convergence.py",
+      "bytes": 3550,
+      "sha256": "96de4902afdcf1e60fcb68cb889b2be51057d7aab485f7506bd8c8b4d8ec8b23"
+    },
+    {
+      "path": "source-guides/SIESTA_5.4.2_UBUNTU26_SYSTEM_LIBS_GUIDE.md",
+      "bytes": 3971,
+      "sha256": "d24d520441c49ee9baa0025707bbb407bae4210cfb7f2541f19f156023ea5f85"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+/**
+ * @page launch_shell Shell launcher
+ * @brief Run an SCF or variable-cell relaxation in a fresh directory.
+ *
+ * Usage from the course root:
+ * @code{.sh}
+ * bash scripts/run_calculation.sh scf 4
+ * bash scripts/run_calculation.sh relaxation 4
+ * @endcode
+ *
+ * The first argument selects the input. The second selects the MPI process
+ * count. SIESTA_EXE optionally identifies the executable. Output is stored
+ * under runs/ and existing runs are preserved.
+ *
+ * Doxygen does not natively parse Bash functions. This is an explanatory page
+ * plus a included source listing; it is not a generated Bash call graph.
+ *
+ * @include run_calculation.sh
+ */

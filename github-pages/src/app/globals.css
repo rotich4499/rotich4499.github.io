@@ -1,0 +1,94 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "../vendor/shadcn-tailwind-4.13.0.css";
+
+:root {
+  --navy: #071b33;
+  --navy-2: #0b2948;
+  --blue: #296c9f;
+  --copper: #d77a42;
+  --ice: #dce9f2;
+  --paper: #ffffff;
+  --ink: #10202e;
+  --muted: #5f6b75;
+  --line: #d7d8d5;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 16px; line-height: 1.65; }
+a { color: inherit; text-decoration: none; }
+::selection { background: var(--copper); color: white; }
+
+/* Shared wordmark used by the existing learning pages. */
+.brand { display: inline-flex; align-items: center; gap: .8rem; font-weight: 650; letter-spacing: -.02em; }
+.brand-mark { display: grid; place-items: center; width: 2.45rem; height: 2.45rem; border: 1px solid rgba(255,255,255,.52); border-radius: 50%; font-family: Georgia, serif; font-size: .78rem; letter-spacing: .04em; }
+.brand-name { white-space: nowrap; }
+
+.profile-site { min-height: 100svh; display: flex; flex-direction: column; color: #263644; background: #fff; }
+.profile-site a { color: #1b5d91; text-decoration: underline; text-underline-offset: 3px; }
+.profile-site a:hover { color: #0b385c; }
+.profile-site :focus-visible { outline: 2px solid #296c9f; outline-offset: 4px; }
+.profile-skip { position: fixed; top: -100px; left: 1rem; z-index: 100; padding: .6rem 1rem; background: white; }
+.profile-skip:focus { top: .75rem; }
+.profile-header { position: sticky; top: 0; z-index: 20; background: #071b33; border-bottom: 1px solid #203c55; }
+.profile-header-inner { max-width: 1100px; margin: 0 auto; padding: 1.1rem 1.5rem; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .75rem 1.8rem; }
+.profile-header .profile-name { color: #fff; text-decoration: none; font-size: 1.125rem; font-weight: 700; white-space: nowrap; }
+.profile-header nav { display: flex; flex-wrap: wrap; align-items: center; gap: 1.25rem; font-size: .9375rem; }
+.profile-header nav a { color: #bacbdb; text-decoration: none; }
+.profile-header nav a:hover, .profile-header nav a[aria-current] { color: #fff; }
+.profile-header nav a[aria-current] { font-weight: 650; box-shadow: 0 2px #8eb3d0; }
+.profile-content { width: 100%; max-width: 900px; padding: 2.5rem 1.5rem 3.5rem; margin: 0 auto; flex: 1; }
+.profile-content h1 { font-size: 2.15rem; line-height: 1.25; letter-spacing: -.03em; font-weight: 650; margin: 0 0 1.25rem; color: #142a3e; }
+.profile-content h2 { font-size: 1.4rem; line-height: 1.35; font-weight: 650; letter-spacing: -.015em; margin: 2.4rem 0 1rem; color: #142a3e; }
+.profile-content h3 { font-size: 1.0625rem; line-height: 1.55; font-weight: 650; margin: 1.4rem 0 .6rem; }
+.profile-content p { margin: .85rem 0 1.1rem; max-width: 82ch; }
+.profile-content ul { list-style: disc; padding-left: 1.35rem; margin: 1rem 0 1.25rem; }
+.profile-content ol { list-style: decimal; padding-left: 1.4rem; margin: 1rem 0 1.25rem; }
+.profile-content li { margin: .35rem 0; padding-left: .1rem; }
+.profile-intro { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 1.5rem 2rem; margin: .5rem 0 2rem; }
+.profile-intro > div:last-child { flex: 1 1 430px; }
+.profile-intro h1 { margin-bottom: .35rem; }
+.profile-photo { display: block; flex: 0 0 140px; width: 140px; height: 140px; margin-top: .2rem; border-radius: 50%; object-fit: cover; object-position: center; }
+.profile-content .profile-role { color: #627587; margin: .25rem 0 1.25rem; font-size: .9375rem; }
+.profile-institution { color: #263644; }
+.profile-social { display: flex; flex-wrap: wrap; gap: .5rem 1.3rem; font-size: .9375rem; margin: 1.25rem 0 .5rem; }
+.profile-learning-note { margin-top: 2.5rem; padding-top: .25rem; border-top: 1px solid #e1e7ec; }
+.profile-learning-note h2 { margin-top: 1.6rem; }
+.profile-content .profile-status { color: #627587; font-size: .875rem; margin: .3rem 0 1rem; }
+.profile-description-list { margin: 1.5rem 0 2rem; }
+.profile-description-list > div { display: grid; grid-template-columns: 190px 1fr; gap: 1.5rem; padding: .9rem 0; border-bottom: 1px solid #e1e7ec; }
+.profile-description-list dt { font-weight: 600; }
+.profile-description-list dd { margin: 0; color: #53677b; overflow-wrap: anywhere; }
+.profile-project { border-bottom: 1px solid #e1e7ec; padding: 1rem 0 1.8rem; }
+.profile-project h2 { margin: .25rem 0 1rem; }
+.profile-project-results { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 1.5rem 0 1rem; }
+.profile-project-results dt { color: #627587; font-size: .875rem; margin-bottom: .3rem; }
+.profile-project-results dd { margin: 0; font-weight: 550; color: #142a3e; }
+.profile-content .profile-small-note { color: #627587; font-size: .875rem; }
+.profile-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: .9375rem; }
+.profile-table caption { text-align: left; margin-bottom: .65rem; color: #53677b; }
+.profile-table th, .profile-table td { padding: .65rem .8rem; text-align: left; border: 1px solid #d7e0e7; }
+.profile-table thead { background: #edf3f8; }
+.profile-table tbody th { font-weight: 400; }
+.profile-site .profile-download { display: inline-block; color: #1b5d91; text-decoration: none; border: 1px solid #c5d4df; padding: .55rem .85rem; border-radius: 3px; font-size: .9375rem; }
+.profile-site .profile-download:hover { background: #edf3f8; }
+.profile-record { display: grid; grid-template-columns: 160px 1fr; gap: 1.5rem; margin: 1.25rem 0; padding-bottom: 1.2rem; border-bottom: 1px solid #e1e7ec; }
+.profile-record-date { color: #627587; font-size: .875rem; padding-top: .1rem; }
+.profile-record h3 { margin: 0 0 .2rem; }
+.profile-record p { margin: .25rem 0; }
+.profile-record-institution { color: #53677b; font-size: .9375rem; }
+.profile-footer { background: #071b33; color: #a6bdcf; font-size: .8125rem; }
+.profile-footer > div { max-width: 1100px; margin: 0 auto; padding: 1.3rem 1.5rem; display: flex; flex-wrap: wrap; justify-content: space-between; gap: .75rem 1.5rem; }
+.profile-footer a { color: #c0d5e5; }
+@media (max-width: 800px) { .profile-header-inner { align-items: flex-start; flex-direction: column; } .profile-header nav { gap: .65rem 1.1rem; font-size: .875rem; } }
+@media (max-width: 600px) {
+  .profile-content { padding: 2rem 1.25rem 3rem; }
+  .profile-header-inner, .profile-footer > div { padding-inline: 1.25rem; }
+  .profile-intro { gap: 1.25rem; }
+  .profile-photo { flex-basis: 96px; width: 96px; height: 96px; }
+  .profile-intro > div:last-child { flex-basis: 100%; }
+  .profile-content h1 { font-size: 1.9rem; }
+  .profile-description-list > div, .profile-record { grid-template-columns: 1fr; gap: .25rem; }
+  .profile-project-results { grid-template-columns: 1fr; gap: .85rem; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
