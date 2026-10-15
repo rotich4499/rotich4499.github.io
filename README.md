@@ -18,7 +18,9 @@ The `.nojekyll` marker selects the prebuilt static website. Earlier Jekyll sourc
 
 ## Maintain the site
 
-The editable source and static build scripts are in [`github-pages/`](github-pages/README.md). To rebuild the published files, use Node.js 22 or newer and Python 3:
+For cloning, local viewing, editing and Git pull/push instructions, follow the [local development guide](github-pages/README.md).
+
+The editable source and static build scripts are in [`github-pages/`](github-pages/README.md). To rebuild the published files, use Node.js 22.13 or newer and Python 3:
 
 ```bash
 cd github-pages

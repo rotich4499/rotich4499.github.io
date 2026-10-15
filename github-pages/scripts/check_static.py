@@ -74,10 +74,16 @@ assert 'Page not found' in (OUTPUT / '404.html').read_text()
 assert not (OUTPUT / 'research/Charles_Rotich_NbN_Bachelor_Project.pdf').exists()
 assert not any('bachelor' in p.name.lower() and p.suffix == '.pdf' for p in OUTPUT.rglob('*'))
 assert (OUTPUT / 'Charles_Rotich_Academic_CV.pdf').read_bytes() == (ROOT / 'src/public/Charles_Rotich_Academic_CV.pdf').read_bytes()
-assert len(build['routes']) == 18
+assert len(build['routes']) == 21
+presentation_sources = json.loads((OUTPUT / 'presentations/source-manifest.json').read_text())
+for source in presentation_sources['presentations'] + presentation_sources['figures']:
+    content = (OUTPUT / source['path'].lstrip('/')).read_bytes()
+    assert hashlib.sha256(content).hexdigest() == source['sha256'], source['path']
+allowed_pdfs = {'Charles_Rotich_Academic_CV.pdf', 'presentations/benzene-gaps.pdf', 'presentations/silicon-diamond-gaps.pdf'}
+assert {str(p.relative_to(OUTPUT)) for p in OUTPUT.rglob('*.pdf')} == allowed_pdfs
 published_files = json.loads((ROOT / 'published-files.json').read_text())
 for filename in published_files:
     assert (OUTPUT / filename).read_bytes() == (ROOT.parent / filename).read_bytes(), f'Published root differs from docs: {filename}'
 assert (ROOT.parent / '.nojekyll').is_file()
 assert not (ROOT.parent / 'research/Charles_Rotich_NbN_Bachelor_Project.pdf').exists()
-print(json.dumps({'staticPages': len(build['routes']), 'localLinksAndAssets': checked, 'verifiedDownloads': len(manifest['files']), 'zipVerified': True, 'bachelorReportExcluded': True, 'publishedRootMatches': True}))
+print(json.dumps({'staticPages': len(build['routes']), 'localLinksAndAssets': checked, 'verifiedDownloads': len(manifest['files']), 'researchFigures': len(presentation_sources['figures']), 'sourcePresentations': len(presentation_sources['presentations']), 'zipVerified': True, 'bachelorReportExcluded': True, 'publishedRootMatches': True}))

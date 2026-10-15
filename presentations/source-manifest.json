@@ -1,0 +1,159 @@
+{
+  "presentations": [
+    {
+      "path": "/presentations/benzene-gaps.pdf",
+      "title": "Fractional-Charge Curvature and Electronic Gaps in Benzene",
+      "author": "Charles Kipchumba Rotich",
+      "date": "2026-09-28",
+      "pages": 8,
+      "sha256": "0780f4810938e6d32bf1566250779a9f47a349f173e4524f5c4dff135644d65b"
+    },
+    {
+      "path": "/presentations/silicon-diamond-gaps.pdf",
+      "title": "Fractional-Charge Curvature and Band Gaps in Silicon and Diamond",
+      "author": "Charles Kipchumba Rotich",
+      "date": "2026-10-14",
+      "pages": 14,
+      "sha256": "5246e7d858da0683f6aad7238e2dab7876e730112d7a76b238c5ecfe14e29ccf",
+      "original_sha256": "f0a4c834b25bde71d8c0e403bd5d2da86fbd6c740ba1241dbcf4a2662cd80807",
+      "edition": "Web copy with downsampled raster images; original plot images are retained separately. Text and all 14 slides are preserved."
+    }
+  ],
+  "figures": [
+    {
+      "path": "/images/research/benzene-derivative-gap.png",
+      "presentation": "/presentations/benzene-gaps.pdf",
+      "page": 6,
+      "extraction": "embedded image",
+      "xref": 55,
+      "width": 3288,
+      "height": 2927,
+      "sha256": "ef9c2d5fdcd2813b52cc737d2329863d29f94975127d41f9db99682f49267e15"
+    },
+    {
+      "path": "/images/research/benzene-small-charge-gap.png",
+      "presentation": "/presentations/benzene-gaps.pdf",
+      "page": 7,
+      "extraction": "embedded image",
+      "xref": 65,
+      "width": 2815,
+      "height": 2935,
+      "sha256": "44bdcd7aafa3a1b577e5c618397d2d968b27907d177fd9481be971a45b16e009"
+    },
+    {
+      "path": "/images/research/silicon-band-structure.png",
+      "presentation": "/presentations/silicon-diamond-gaps.pdf",
+      "page": 4,
+      "extraction": "embedded image",
+      "xref": 42,
+      "width": 2369,
+      "height": 2067,
+      "sha256": "5a971574ef99c3ba96ba4dd738d00497d4457d5116e5f40f08c13e1c276b3a34"
+    },
+    {
+      "path": "/images/research/diamond-band-structure.png",
+      "presentation": "/presentations/silicon-diamond-gaps.pdf",
+      "page": 4,
+      "extraction": "embedded image",
+      "xref": 44,
+      "width": 792,
+      "height": 612,
+      "sha256": "b504a81e06de3def190b396c7944738847d9a74601a886b92b676ab816a80a69"
+    },
+    {
+      "path": "/images/research/silicon-charge-curvature.png",
+      "presentation": "/presentations/silicon-diamond-gaps.pdf",
+      "page": 7,
+      "extraction": "embedded image",
+      "xref": 67,
+      "width": 2361,
+      "height": 1759,
+      "sha256": "dcd50a6d6ff06a3692764c8be0c171de64a938f3a4310d2f3be450652ba455de"
+    },
+    {
+      "path": "/images/research/diamond-charge-curvature.png",
+      "presentation": "/presentations/silicon-diamond-gaps.pdf",
+      "page": 7,
+      "extraction": "embedded image",
+      "xref": 68,
+      "width": 2361,
+      "height": 1759,
+      "sha256": "e2983f2f9a492b7ae28f458c7528633ae5f82d93c9c5e5b59b6a82eee75891c2"
+    },
+    {
+      "path": "/images/research/silicon-supercell-curvature.png",
+      "presentation": "/presentations/silicon-diamond-gaps.pdf",
+      "page": 8,
+      "extraction": "embedded image",
+      "xref": 79,
+      "width": 4861,
+      "height": 3418,
+      "sha256": "18bec67c537b89074c3d8052fa3a0d81b727ae0336a158aeac1080d429c51159"
+    },
+    {
+      "path": "/images/research/silicon-supercell-gap.png",
+      "presentation": "/presentations/silicon-diamond-gaps.pdf",
+      "page": 9,
+      "extraction": "embedded image",
+      "xref": 87,
+      "width": 2820,
+      "height": 2940,
+      "sha256": "da0eb7cd393104c56b5f825424705f6082716aeac96338686a5a8e4ef8965746"
+    },
+    {
+      "path": "/images/research/silicon-derivative-gap.png",
+      "presentation": "/presentations/silicon-diamond-gaps.pdf",
+      "page": 10,
+      "extraction": "embedded image",
+      "xref": 94,
+      "width": 4425,
+      "height": 3213,
+      "sha256": "591545d94b8f63199336cfa113f5a78e392af39a2cd6dcf277fa926e9de10fdb"
+    },
+    {
+      "path": "/images/research/diamond-derivative-gap.png",
+      "presentation": "/presentations/silicon-diamond-gaps.pdf",
+      "page": 11,
+      "extraction": "embedded image",
+      "xref": 102,
+      "width": 4437,
+      "height": 3239,
+      "sha256": "5083edc3b897dfafed5e1beb452959e770b1db3a6b3695ba7a454492d9d8cf5d"
+    },
+    {
+      "path": "/images/research/silicon-small-charge-gap.png",
+      "presentation": "/presentations/silicon-diamond-gaps.pdf",
+      "page": 12,
+      "extraction": "embedded image",
+      "xref": 109,
+      "width": 4437,
+      "height": 3238,
+      "sha256": "09a33d461f08f26ac3c6f53ceea04ab382b216b755c9408cd07204bf0f14a399"
+    },
+    {
+      "path": "/images/research/silicon-supercell-derivative-gap.png",
+      "presentation": "/presentations/silicon-diamond-gaps.pdf",
+      "page": 13,
+      "extraction": "embedded image",
+      "xref": 171,
+      "width": 2367,
+      "height": 1680,
+      "sha256": "9305596a5a1ea8215ca5f7fe6154414fe604df02a9343e0add5584029271f745"
+    },
+    {
+      "path": "/images/research/diamond-small-charge-gap.png",
+      "presentation": "/presentations/silicon-diamond-gaps.pdf",
+      "page": 12,
+      "extraction": "rendered vector figure",
+      "clip_points": [
+        260.0,
+        61.0,
+        395.0,
+        201.0
+      ],
+      "width": 1080,
+      "height": 1120,
+      "sha256": "91cb8629f14c8a26ff5385cd2714ea07d2afe719c86901a6d7b98a632655c6f1"
+    }
+  ]
+}

@@ -26,6 +26,18 @@
       "title": "AiiDA mechanical-property workflows | Charles Rotich"
     },
     {
+      "route": "/projects/silicon",
+      "title": "Silicon band gaps and fractional charge | Charles Rotich"
+    },
+    {
+      "route": "/projects/diamond",
+      "title": "Diamond electronic structure and fractional charge | Charles Rotich"
+    },
+    {
+      "route": "/projects/benzene",
+      "title": "Benzene molecular gaps and fractional charge | Charles Rotich"
+    },
+    {
       "route": "/cv",
       "title": "CV | Charles Rotich"
     },
@@ -75,7 +87,7 @@
     }
   ],
   "assets": {
-    "css": "/assets/site-9f49b6b69f0e.css",
+    "css": "/assets/site-b1ae6d99770d.css",
     "script": "/assets/site-ef09a5b8ba35.js"
   }
 }
