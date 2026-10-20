@@ -7,7 +7,7 @@ export default function Home() {
       <div><h1>Charles Kipchumba Rotich</h1>
         <p className="profile-role">Computational physicist · Materials science researcher</p>
         <p>I use first-principles calculations to study the electronic, optical and surface properties of materials, with a focus on oxides for photocatalytic water splitting.</p>
-        <p>I am an MSc Physics student and Graduate Research Assistant at <span className="profile-institution">The Technical University of Kenya</span>, currently undertaking Erasmus+ research mobility at the University of Cantabria in Santander, Spain.</p>
+        <p>I am an MSc Physics student at <span className="profile-institution">The Technical University of Kenya</span>, where I served as a Graduate Research Assistant from July 2025 to August 2026. I am currently undertaking Erasmus+ research mobility at the University of Cantabria in Santander, Spain.</p>
         <div className="profile-social"><a href="mailto:rotich4499@gmail.com">Email</a><a href="https://www.linkedin.com/in/charles-rotich-a2694422b" target="_blank" rel="noreferrer">LinkedIn</a><a href="https://github.com/rotich4499" target="_blank" rel="noreferrer">GitHub</a><a href="/Charles_Rotich_Academic_CV.pdf" download>Download CV</a></div>
       </div>
     </section>
