@@ -10,7 +10,7 @@ export default function NiobiumNitride() {
   return <ProfileLayout active="/projects">
     <p><a href="/projects">← All projects</a></p>
     <h1>Temperature and defects in niobium nitride</h1>
-    <p className="profile-status">Bachelor of Technology final-year project · The Technical University of Kenya · Report dated September 2021</p>
+    <p className="profile-status">Bachelor of Technology final-year project · The Technical University of Kenya · September 2021</p>
     <p><strong>Effects of Temperature and Intrinsic Structural Defects on Mechanical Properties of Niobium Nitride</strong></p>
     <p>My undergraduate project examined the mechanical properties of rock-salt niobium nitride (NbN), focusing on its bulk modulus: a measure of resistance to a change in volume under compression. I combined density functional theory and molecular dynamics to compare a pristine crystal with a nitrogen-vacancy supercell and structures relaxed at different temperatures.</p>
 
